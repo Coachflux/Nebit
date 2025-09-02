@@ -1,6 +1,6 @@
 // Replace with your specific thirdweb client ID and contract address
 const CLIENT_ID = "YOUR_CLIENT_ID";
-const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS";
+const CONTRACT_ADDRESS = "0x65282B3EE25f216fa509669eC6C853eFf4863729";
 
 // Import BNB Smart Chain object from thirdweb chains
 const { bnbSmartChain, createThirdwebClient, getWallets, createWallet, connect, getActiveWallet, getContract, erc20, sendAndConfirmTransaction } = thirdweb;
