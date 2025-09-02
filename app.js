@@ -1,5 +1,5 @@
 // Replace with your specific thirdweb client ID and contract address
-const CLIENT_ID = "YOUR_CLIENT_ID";
+const CLIENT_ID = "e3ca99c9ac33ab73630fe70e24143a8d";
 const CONTRACT_ADDRESS = "0x65282B3EE25f216fa509669eC6C853eFf4863729";
 
 // Import BNB Smart Chain object from thirdweb chains
