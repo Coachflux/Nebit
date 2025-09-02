@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSC Token Airdrop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>BSC Token Airdrop</h1>
+
+        <!-- Wallet Connection UI -->
+        <div class="card">
+            <h2>Connect Your Wallet</h2>
+            <button id="connect-wallet-btn">Connect Wallet</button>
+            <p id="wallet-status"></p>
+            <p id="user-address"></p>
+        </div>
+
+        <!-- Claim UI -->
+        <div class="card">
+            <h2>Claim Your Tokens</h2>
+            <input type="number" id="claim-quantity" placeholder="Number of tokens" value="1" min="1">
+            <button id="claim-btn" disabled>Claim Tokens</button>
+            <p id="claim-status"></p>
+        </div>
+    </div>
+
+    <!-- thirdweb SDK via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/thirdweb@5"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
