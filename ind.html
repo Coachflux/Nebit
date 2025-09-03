@@ -82,7 +82,7 @@
       // Claim the token drop
       async function claimTokens() {
         try {
-          const tokenDrop = await sdk.getContract('0x...'); // Replace with your token drop contract address
+          const tokenDrop = await sdk.getContract('0x65282B3EE25f216fa509669eC6C853eFf4863729'); // Replace with your token drop contract address
           await tokenDrop.claim(1); // Claim 1 token
           statusDiv.textContent = 'Token(s) claimed!';
         } catch (error) {
