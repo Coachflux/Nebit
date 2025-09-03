@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Third Web Token Drop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Third Web Token Drop</h1>
+    <button id="connectButton">Connect Wallet</button>
+    <button id="claimButton" disabled>Claim Tokens</button>
+    <div id="status"></div>
+
+    <script>
+      const connectButton = document.getElementById('connectButton');
+      const claimButton = document.getElementById('claimButton');
+      const statusDiv = document.getElementById('status');
+
+      // Initialize the ThirdWeb SDK
+      const sdk = new ThirdwebSDK('goerli');
+
+      // Connect to the user's wallet
+      async function connectWallet() {
+        try {
+          await sdk.wallet.connect();
+          statusDiv.textContent = 'Wallet connected!';
+          claimButton.disabled = false;
+        } catch (error) {
+          statusDiv.textContent = 'Error connecting wallet: ' + error.message;
+        }
+      }
+
+      // Claim the token drop
+      async function claimTokens() {
+        try {
+          const tokenDrop = await sdk.getContract('0x...'); // Replace with your token drop contract address
+          await tokenDrop.claim(1); // Claim 1 token
+          statusDiv.textContent = 'Token(s) claimed!';
+        } catch (error) {
+          statusDiv.textContent = 'Error claiming tokens: ' + error.message;
+        }
+      }
+
+      connectButton.addEventListener('click', connectWallet);
+      claimButton.addEventListener('click', claimTokens);
+    </script>
+  </div>
+</body>
+</html>
