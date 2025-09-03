@@ -58,8 +58,16 @@
       const statusDiv = document.getElementById('status');
 
       // Initialize the ThirdWeb SDK
-      const sdk = new ThirdwebSDK('goerli');
-
+      const sdk = new ThirdwebSDK({
+  readOnlySettings: {
+    chainId: 5, // Goerli testnet
+    rpcUrl: 'https://rpc.goerli.mudit.blog',
+  },
+  walletConnection: {
+    disconnectOnNetworkChange: false,
+    theme: 'light',
+  },
+});
       // Connect to the user's wallet
       async function connectWallet() {
         try {
