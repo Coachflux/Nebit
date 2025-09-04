@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nebit (NEB) Airdrop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Web3Modal v2 + WalletConnect v2 -->
+  <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/ethereum-provider/dist/umd/index.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: #1e1e1e;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+    }
+    button {
+      background: #00c6ff;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      padding: 14px;
+      margin: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+    button:hover { background: #0072ff; }
+    .balance { margin: 15px 0; font-size: 18px; }
+    .status { margin-top: 10px; font-size: 14px; color: #ccc; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🌐 Nebit (NEB) Airdrop</h2>
+    <button id="connectBtn">Connect Wallet</button>
+    <div class="balance">
+      <div>BNB: <span id="bnbBalance">0</span></div>
+      <div>NEB: <span id="nebBalance">0</span></div>
+    </div>
+    <div class="balance">Claim Fee: <span id="claimFee">0.001</span> BNB</div>
+    <button id="claimBtn" disabled>Claim 100 NEB</button>
+    <div class="status" id="status">Disconnected</div>
+  </div>
+
+<script>
+/* ---------------- Contract Setup ---------------- */
+const AIRDROP_ADDRESS = "YOUR_AIRDROP_CONTRACT"; // replace
+const TOKEN_ADDRESS   = "YOUR_NEB_TOKEN";        // replace
+
+const AIRDROP_ABI = [
+  "function CLAIM_FEE() view returns (uint256)",
+  "function hasClaimed(address) view returns (bool)",
+  "function claimAirdrop() payable"
+];
+
+const TOKEN_ABI = [
+  "function balanceOf(address) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+/* ---------------- Global Vars ---------------- */
+let provider, ethersProvider, signer, userAddress;
+let airdropContract, tokenContract;
+
+/* ---------------- DOM ---------------- */
+const connectBtn   = document.getElementById("connectBtn");
+const claimBtn     = document.getElementById("claimBtn");
+const statusEl     = document.getElementById("status");
+const bnbBalanceEl = document.getElementById("bnbBalance");
+const nebBalanceEl = document.getElementById("nebBalance");
+const claimFeeEl   = document.getElementById("claimFee");
+
+/* ---------------- Init WalletConnect v2 ---------------- */
+async function connectWallet() {
+  try {
+    provider = await window.WalletConnectEthereumProvider.default.init({
+      projectId: "YOUR_PROJECT_ID", // 👉 create free at https://cloud.walletconnect.com
+      chains: [56], // BSC Mainnet
+      showQrModal: true
+    });
+    await provider.enable();
+
+    ethersProvider = new ethers.providers.Web3Provider(provider);
+    signer = ethersProvider.getSigner();
+    userAddress = await signer.getAddress();
+
+    statusEl.innerText = "Connected ✅ " + userAddress.slice(0,6) + "..." + userAddress.slice(-4);
+    connectBtn.innerText = "Connected";
+
+    airdropContract = new ethers.Contract(AIRDROP_ADDRESS, AIRDROP_ABI, signer);
+    tokenContract   = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+
+    await refreshBalances();
+    claimBtn.disabled = false;
+
+  } catch (err) {
+    console.error(err);
+    statusEl.innerText = "Connection failed ❌";
+  }
+}
+
+/* ---------------- Refresh Balances ---------------- */
+async function refreshBalances() {
+  try {
+    let bnbBal = await ethersProvider.getBalance(userAddress);
+    bnbBalanceEl.innerText = parseFloat(ethers.utils.formatEther(bnbBal)).toFixed(4);
+
+    let nebBal = await tokenContract.balanceOf(userAddress);
+    let decimals = await tokenContract.decimals();
+    nebBalanceEl.innerText = parseFloat(ethers.utils.formatUnits(nebBal, decimals)).toFixed(2);
+
+    let claimed = await airdropContract.hasClaimed(userAddress);
+    claimBtn.disabled = claimed;
+    if (claimed) {
+      statusEl.innerText = "Already claimed 100 NEB ✅";
+    }
+
+    let fee = await airdropContract.CLAIM_FEE();
+    claimFeeEl.innerText = ethers.utils.formatEther(fee);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/* ---------------- Claim Airdrop ---------------- */
+async function claimAirdrop() {
+  try {
+    let fee = await airdropContract.CLAIM_FEE();
+    let tx = await airdropContract.claimAirdrop({ value: fee });
+    statusEl.innerText = "Claiming... ⏳";
+    await tx.wait();
+    statusEl.innerText = "Claim successful ✅";
+    await refreshBalances();
+  } catch (err) {
+    console.error(err);
+    statusEl.innerText = "Claim failed ❌";
+  }
+}
+
+connectBtn.onclick = connectWallet;
+claimBtn.onclick   = claimAirdrop;
+</script>
+</body>
+</html>
