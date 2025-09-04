@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nebit (NEB) Airdrop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- WalletConnect + Web3Modal + Ethers -->
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+  <script src="https://unpkg.com/web3modal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.8.0/dist/ethers.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: #1e1e1e;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+    }
+    button {
+      background: #00c6ff;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      padding: 14px;
+      margin: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0072ff;
+    }
+    .balance {
+      margin: 15px 0;
+      font-size: 18px;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🌐 Nebit (NEB) Airdrop</h2>
+    <button id="connectBtn">Connect Wallet</button>
+    <div class="balance">
+      <div>BNB: <span id="bnbBalance">0</span></div>
+      <div>NEB: <span id="nebBalance">0</span></div>
+    </div>
+    <div class="balance">Claim Fee: <span id="claimFee">0.001</span> BNB</div>
+    <button id="claimBtn" disabled>Claim 100 NEB</button>
+    <div class="status" id="status">Disconnected</div>
+  </div>
+
+<script>
+/* ---------------- Contract Setup ---------------- */
+const AIRDROP_ADDRESS = "YOUR_AIRDROP_CONTRACT";   // Replace with NebitAirdrop contract
+const TOKEN_ADDRESS   = "YOUR_NEB_TOKEN";          // Replace with NebitToken contract
+
+const AIRDROP_ABI = [
+  "function CLAIM_FEE() view returns (uint256)",
+  "function hasClaimed(address) view returns (bool)",
+  "function claimAirdrop() payable"
+];
+
+const TOKEN_ABI = [
+  "function balanceOf(address) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+let web3Modal, provider, ethersProvider, signer, userAddress;
+let airdropContract, tokenContract;
+
+/* ---------------- Init Web3Modal ---------------- */
+function init() {
+  const providerOptions = {
+    walletconnect: {
+      package: window.WalletConnectProvider.default,
+      options: {
+        rpc: {
+          56: "https://bsc-dataseed.binance.org/"
+        },
+        chainId: 56
+      }
+    }
+  };
+
+  web3Modal = new window.Web3Modal.default({
+    cacheProvider: false,
+    providerOptions
+  });
+}
+init();
+
+/* ---------------- DOM Elements ---------------- */
+const connectBtn   = document.getElementById("connectBtn");
+const claimBtn     = document.getElementById("claimBtn");
+const statusEl     = document.getElementById("status");
+const bnbBalanceEl = document.getElementById("bnbBalance");
+const nebBalanceEl = document.getElementById("nebBalance");
+const claimFeeEl   = document.getElementById("claimFee");
+
+/* ---------------- Ensure BNB Chain ---------------- */
+async function ensureBNBChain() {
+  const chainId = await provider.request({ method: "eth_chainId" });
+  if (chainId !== "0x38") { // 56 in hex
+    try {
+      await provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x38" }]
+      });
+      statusEl.innerText = "Switched to BNB Chain ✅";
+    } catch (err) {
+      // If chain not added
+      if (err.code === 4902) {
+        await provider.request({
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: "0x38",
+            chainName: "BNB Smart Chain",
+            nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+            rpcUrls: ["https://bsc-dataseed.binance.org/"],
+            blockExplorerUrls: ["https://bscscan.com/"]
+          }]
+        });
+      } else {
+        console.error(err);
+        statusEl.innerText = "❌ Please switch to BNB Chain manually.";
+      }
+    }
+  }
+}
+
+/* ---------------- Connect Wallet ---------------- */
+async function connectWallet() {
+  try {
+    provider = await web3Modal.connect();
+    ethersProvider = new ethers.BrowserProvider(provider);
+    signer = await ethersProvider.getSigner();
+    userAddress = await signer.getAddress();
+
+    await ensureBNBChain();
+
+    airdropContract = new ethers.Contract(AIRDROP_ADDRESS, AIRDROP_ABI, signer);
+    tokenContract   = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+
+    connectBtn.innerText = userAddress.slice(0,6) + "..." + userAddress.slice(-4);
+    statusEl.innerText = "Connected ✅";
+
+    await refreshBalances();
+    claimBtn.disabled = false;
+
+  } catch (err) {
+    console.error(err);
+    statusEl.innerText = "Connection failed ❌";
+  }
+}
+
+/* ---------------- Refresh Balances ---------------- */
+async function refreshBalances() {
+  try {
+    let bnbBal = await ethersProvider.getBalance(userAddress);
+    bnbBalanceEl.innerText = ethers.formatEther(bnbBal);
+
+    let nebBal = await tokenContract.balanceOf(userAddress);
+    let decimals = await tokenContract.decimals();
+    nebBalanceEl.innerText = ethers.formatUnits(nebBal, decimals);
+
+    let claimed = await airdropContract.hasClaimed(userAddress);
+    claimBtn.disabled = claimed;
+    if (claimed) {
+      statusEl.innerText = "Already claimed 100 NEB ✅";
+    }
+
+    let fee = await airdropContract.CLAIM_FEE();
+    claimFeeEl.innerText = ethers.formatEther(fee);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/* ---------------- Claim Airdrop ---------------- */
+async function claimAirdrop() {
+  try {
+    let fee = await airdropContract.CLAIM_FEE();
+    let tx = await airdropContract.claimAirdrop({ value: fee });
+    statusEl.innerText = "Claiming... ⏳";
+    await tx.wait();
+    statusEl.innerText = "Claim successful ✅";
+    await refreshBalances();
+  } catch (err) {
+    console.error(err);
+    statusEl.innerText = "Claim failed ❌";
+  }
+}
+
+connectBtn.onclick = connectWallet;
+claimBtn.onclick   = claimAirdrop;
+</script>
+</body>
+</html>
