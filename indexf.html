@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thirdweb dApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f0f2f5;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      background-color: #6200ee;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0.5rem;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #3700b3;
+    }
+    #status {
+      margin-top: 1rem;
+      color: #333;
+      word-break: break-all;
+    }
+    #connectButton {
+      background-color: #03dac6;
+    }
+    #connectButton:hover {
+      background-color: #018786;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Thirdweb dApp</h1>
+    <button id="connectButton">Connect Wallet</button>
+    <button id="getBalanceButton">Get Balance</button>
+    <div id="status">Not connected</div>
+  </div>
+
+  <script type="module">
+    import {
+      createThirdwebClient,
+      getContract,
+      defineChain
+    } from "https://unpkg.com/@thirdweb-dev/sdk@latest/dist/thirdweb-dev-sdk.browser.js";
+    import { connect, disconnect, getAccount } from "https://unpkg.com/@thirdweb-dev/sdk@latest/dist/thirdweb-dev-sdk.browser.js";
+
+    // Initialize Thirdweb client
+    const client = createThirdwebClient({
+      clientId: "YOUR_CLIENT_ID", // Replace with your actual Thirdweb client ID
+    });
+
+    // Connect to contract
+    const contract = getContract({
+      client,
+      chain: defineChain(56), // Binance Smart Chain
+      address: "0x65282B3EE25f216fa509669eC6C853eFf4863729",
+    });
+
+    // DOM elements
+    const connectButton = document.getElementById("connectButton");
+    const getBalanceButton = document.getElementById("getBalanceButton");
+    const statusDiv = document.getElementById("status");
+
+    // Wallet connection
+    async function connectWallet() {
+      try {
+        const wallet = await connect({
+          client,
+          chain: defineChain(56),
+        });
+        const account = await getAccount({ client, wallet });
+        statusDiv.textContent = `Connected: ${account.address}`;
+        getBalanceButton.style.display = "inline-block";
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+      }
+    }
+
+    // Get balance (example interaction)
+    async function getBalance() {
+      try {
+        statusDiv.textContent = "Fetching balance...";
+        // Example: Assuming the contract has a balanceOf function
+        const balance = await contract.call("balanceOf", [getAccount({ client }).address]);
+        statusDiv.textContent = `Balance: ${balance.toString()}`;
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+      }
+    }
+
+    // Event listeners
+    connectButton.addEventListener("click", connectWallet);
+    getBalanceButton.addEventListener("click", getBalance);
+
+    // Initial setup
+    getBalanceButton.style.display = "none";
+  </script>
+</body>
+</html>
