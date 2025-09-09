@@ -2,124 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Nebit Airdrop Claim</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thirdweb dApp</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f0f2f5;
-    }
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
-    h1 {
-      color: #1a1a1a;
-      margin-bottom: 1.5rem;
-    }
-    button {
-      background-color: #6200ee;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin: 0.5rem;
-      transition: background-color 0.2s;
-    }
-    button:hover {
-      background-color: #3700b3;
-    }
-    #status {
-      margin-top: 1rem;
-      color: #333;
-      word-break: break-all;
-    }
-    #connectButton {
-      background-color: #03dac6;
-    }
-    #connectButton:hover {
-      background-color: #018786;
-    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9fbfd; margin: 0; padding: 0; }
+    .container { max-width: 350px; background: white; margin: 60px auto 0 auto; border-radius: 12px; box-shadow: 0 2px 12px #0002; padding: 36px 28px; }
+    h1 { font-size: 1.7rem; color: #262655; margin-top: 0; }
+    p { margin: 0.93em 0 0.45em 0; color: #4b505c; }
+    .field { display: flex; flex-direction: column; margin-bottom: 18px; }
+    .btn { background: #ffd600; color: #080816; font-weight: bold; border: 0; border-radius: 24px; padding: 13px; cursor: pointer; margin-top: 8px; font-size: 1.05em; transition: 0.15s; }
+    .btn:hover { background: #ffe885; }
+    #status { margin-top: 14px; min-height: 26px; font-size: 1.01em; }
+    #wallet { word-break: break-all; }
+    .success { color: #008132; }
+    .error { color: #bc002d; }
+    footer { text-align: center; margin: 35px 0 16px 0; color: #9ea6b1; font-size: 0.98em; }
+    .token-info { background: #f4f8fa; border-radius: 7px; padding: 10px 12px; margin-bottom: 22px; }
   </style>
+  <!-- Include web3modal, ethers, walletconnect -->
+  <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Thirdweb dApp</h1>
-    <button id="connectButton">Connect Wallet</button>
-    <button id="getBalanceButton">Get Balance</button>
-    <div id="status">Not connected</div>
+    <h1>Nebit <span style="color:#F9A602; font-weight: normal;">Airdrop</span></h1>
+    <div class="token-info">
+      Claim <b>100 NEB</b> by paying<br>
+      <b>0.00001 BNB</b> fee<br>
+      <span style="color:#8c929a; font-size:0.97em;">One claim per wallet</span>
+    </div>
+    <div class="field">
+      <button class="btn" id="connectBtn">Connect Wallet</button>
+      <span id="wallet"></span>
+    </div>
+    <div class="field">
+      <button class="btn" id="claimBtn" style="display:none;">Claim 100 NEB</button>
+    </div>
+    <div id="status"></div>
   </div>
+  <footer>
+    Powered by NEB / Nebit. On BNB Smart Chain.
+  </footer>
+<script type="text/javascript">
+/**
+ * Nebit: Airdrop Claim Frontend (with WalletConnect + EIP-1193 universal wallet support)
+ */
+// ----- CONFIG -----
+const NEBIT_TOKEN_ADDR = "0x71013E2cfcd28Ba1b45229ff74D03539cB367b47";
+const AIRDROP_ADDR = "0x36d6476599a5D5b7A8F7f57F949E21a55e9016fB"; // Replace after deployment!
+const CLAIM_AMOUNT = "100";
+const CLAIM_FEE_BNB = "0.00001";
+const BNB_CHAIN_ID = "0x38"; // 56 in hex
 
-  <script type="module">
-    import {
-      createThirdwebClient,
-      getContract,
-      defineChain
-    } from "https://unpkg.com/@thirdweb-dev/sdk@latest/dist/thirdweb-dev-sdk.browser.js";
-    import { connect, disconnect, getAccount } from "https://unpkg.com/@thirdweb-dev/sdk@latest/dist/thirdweb-dev-sdk.browser.js";
+const AIRDROP_ABI = [
+  {"inputs":[],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"},
+  {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"hasClaimed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
+];
 
-    // Initialize Thirdweb client
-    const client = createThirdwebClient({
-      clientId: "e3ca99c9ac33ab73630fe70e24143a8d", // Replace with your actual Thirdweb client ID
-    });
+// --- Modal/Providers Setup ---
+let web3Modal, provider, ethersProvider, signer, account, airdropContract, selectedWallet;
 
-    // Connect to contract
-    const contract = getContract({
-      client,
-      chain: defineChain(56), // Binance Smart Chain
-      address: "0x65282B3EE25f216fa509669eC6C853eFf4863729",
-    });
-
-    // DOM elements
-    const connectButton = document.getElementById("connectButton");
-    const getBalanceButton = document.getElementById("getBalanceButton");
-    const statusDiv = document.getElementById("status");
-
-    // Wallet connection
-    async function connectWallet() {
-      try {
-        const wallet = await connect({
-          client,
-          chain: defineChain(56),
-        });
-        const account = await getAccount({ client, wallet });
-        statusDiv.textContent = `Connected: ${account.address}`;
-        getBalanceButton.style.display = "inline-block";
-      } catch (error) {
-        statusDiv.textContent = `Error: ${error.message}`;
+const connectBtn = document.getElementById('connectBtn');
+const claimBtn = document.getElementById('claimBtn');
+const walletSpan = document.getElementById('wallet');
+const statusDiv = document.getElementById('status');
+// --- Insert your own WalletConnect project ID below! ---
+const WALLETCONNECT_PROJECT_ID = "YOUR_PROJECT_ID_HERE"; // get it from https://cloud.walletconnect.com
+window.addEventListener('load', async () => {
+  web3Modal = new window.Web3Modal.default({
+    cacheProvider: false,
+    theme: "light",
+    providerOptions: {
+      walletconnect: {
+        package: window.WalletConnectProvider.default,
+        options: {
+          rpc: {56: "https://bsc-dataseed1.binance.org"},
+          chainId: 56,
+          projectId: WALLETCONNECT_PROJECT_ID
+        },
       }
     }
+  });
+});
 
-    // Get balance (example interaction)
-    async function getBalance() {
-      try {
-        statusDiv.textContent = "Fetching balance...";
-        // Example: Assuming the contract has a balanceOf function
-        const balance = await contract.call("balanceOf", [getAccount({ client }).address]);
-        statusDiv.textContent = `Balance: ${balance.toString()}`;
-      } catch (error) {
-        statusDiv.textContent = `Error: ${error.message}`;
-      }
+connectBtn.onclick = async function() {
+  try {
+    provider = await web3Modal.connect();
+    ethersProvider = new ethers.providers.Web3Provider(provider, "any");
+    signer = ethersProvider.getSigner();
+    account = await signer.getAddress();
+    selectedWallet = provider.isMetaMask ? "MetaMask" : (provider.isWalletConnect ? "WalletConnect" : "Wallet");
+    // Force switch to BNB Chain
+    await ethersProvider.send("wallet_switchEthereumChain", [{chainId: BNB_CHAIN_ID}]).catch(()=>{});
+    // Update UI
+    walletSpan.innerText = shorten(account) + " (" + selectedWallet + ")";
+    connectBtn.style.display = 'none';
+    claimBtn.style.display = '';
+    status("Wallet connected.", "success");
+    // Setup contract
+    airdropContract = new ethers.Contract(AIRDROP_ADDR, AIRDROP_ABI, signer);
+    checkIfClaimed();
+    // handle account/network change
+    provider.on && provider.on('accountsChanged', ()=>window.location.reload());
+    provider.on && provider.on('chainChanged', ()=>window.location.reload());
+  } catch (err) {
+    status("Connection failed: " + (err.message || err), "error");
+  }
+};
+
+claimBtn.onclick = async function() {
+  if (!account) { status("Please connect your wallet first.","error"); return; }
+  if (!airdropContract) airdropContract = new ethers.Contract(AIRDROP_ADDR, AIRDROP_ABI, signer);
+  claimBtn.disabled = true;
+  status("Checking eligibility...", "");
+  try {
+    let already = await airdropContract.hasClaimed(account);
+    if (already) { status("You have already claimed your NEB airdrop.", "error"); claimBtn.disabled = false; return; }
+    status("Submitting claim (waiting for wallet)...", "");
+    let tx = await airdropContract.claim({value: ethers.utils.parseEther(CLAIM_FEE_BNB)});
+    status("Transaction sent! Waiting for confirmation...<br>TX: <a href='https://bscscan.com/tx/" + tx.hash + "' target='_blank'>" + tx.hash.substring(0,20) + "...</a>", "success");
+    await tx.wait();
+    status("🎉 Claim successful! 100 NEB sent to your wallet.<br><a href='https://bscscan.com/address/" + NEBIT_TOKEN_ADDR + "' target='_blank'>View NEB token</a>", "success");
+  } catch (err) {
+    if (err.code === 4001) { status("User rejected transaction.", "error"); }
+    else if (err.data && err.data.message) { status("Error: " + err.data.message, "error"); }
+    else { status("Error: " + (err.reason || err.message || err), "error"); }
+  }
+  claimBtn.disabled = false;
+};
+
+function status(msg, cls) {
+  statusDiv.innerHTML = msg;
+  statusDiv.className = cls || "";
+}
+
+function shorten(addr) {
+  return addr.slice(0, 7) + "..." + addr.slice(-4);
+}
+
+async function checkIfClaimed() {
+  try {
+    let already = await airdropContract.hasClaimed(account);
+    if (already) {
+      status("You have already claimed your NEB airdrop.", "error");
+      claimBtn.disabled = true;
+      claimBtn.style.background = "#dadada";
+    } else {
+      status("Eligible to claim! Pay 0.00001 BNB to receive 100 NEB.", "success");
+      claimBtn.disabled = false;
+      claimBtn.style.background = "";
     }
-
-    // Event listeners
-    connectButton.addEventListener("click", connectWallet);
-    getBalanceButton.addEventListener("click", getBalance);
-
-    // Initial setup
-    getBalanceButton.style.display = "none";
-  </script>
+  } catch(e) {
+    status("Cannot check claim status: " + (e.message || e), "error");
+  }
+}
+</script>
 </body>
 </html>
