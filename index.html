@@ -4,109 +4,169 @@
   <meta charset="UTF-8">
   <title>Nebit Airdrop Claim</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Custom font for branded look -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap">
+  <!-- Brand font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap">
   <style>
+    :root {
+      --neb-gold: #ffd600;
+      --neb-gold-deep: #F9A602;
+      --neb-gold-light: #ffe885;
+      --neb-bg: #1e2b46;
+      --neb-bg-lighter: #283864;
+      --neb-card: #fcfcfa;
+      --neb-blue: #3e5fd1;
+      --neb-text: #1b233f;
+      --neb-muted: #92a1be;
+      --neb-shadow: #ffd60021;
+      --neb-card-shadow: 0 5px 35px 0 #FFD60019, 0 2px 24px #2134be11;
+    }
     body {
-      font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(120deg, #141e30 0%, #4579e2 100%);
-      margin: 0; padding: 0;
       min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(120deg, var(--neb-bg-lighter) 0%, var(--neb-bg) 100%);
+      font-family: 'Montserrat', Arial, sans-serif;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .container {
-      max-width: 410px;
-      background: #fffefb;
-      margin: 60px auto 0 auto;
-      border-radius: 20px;
-      box-shadow: 0 5px 25px #28265524;
-      padding: 40px 32px 32px 32px;
+      max-width: 426px;
+      width: 97vw;
+      margin: 42px auto 18px auto;
+      background: var(--neb-card);
+      border-radius: 24px;
+      box-shadow: var(--neb-card-shadow);
+      padding: 44px 33px 26px 33px;
       position: relative;
+      animation: fadeIn 1.3s;
+      border: 2px solid #fff;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px);}
+      100% { opacity: 1; transform: none;}
     }
     .logo {
-      width: 72px; height: 72px;
-      border-radius: 13px;
-      object-fit: cover;
-      box-shadow: 0 1px 10px #ffd60030;
+      width: 82px; height: 82px;
+      border-radius: 16px;
+      margin: 0 auto 8px auto;
       display: block;
-      margin: 0 auto 10px auto;
-      background: #ffd60020;
+      box-shadow: 0 1px 16px var(--neb-shadow), 0 2px 16px #FFD60055;
+      background: linear-gradient(120deg, #F9A60222 75%, #ffd6000a);
+      object-fit: cover;
     }
     h1 {
-      font-size: 2.1rem;
-      color: #212155;
+      font-size: 2.27rem;
+      letter-spacing: .01em;
+      color: var(--neb-blue);
+      margin: 10px auto 0 auto;
       font-weight: 700;
-      margin-top: 18px;
-      margin-bottom: 2px;
-      letter-spacing: 1px;
       text-align: center;
+      position: relative;
     }
     .brand {
-      color: #F9A602;
-      font-weight: 600;
-      background: linear-gradient(90deg,#ffd600 40%,#f9a602 60%);
+      display: inline-block;
+      font-weight: 700;
+      color: var(--neb-gold-deep);
+      background: linear-gradient(90deg,var(--neb-gold) 40%,var(--neb-gold-deep) 60%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .token-info {
-      background: #f7faff;
-      border-radius: 8px;
-      padding: 13px 16px;
-      margin: 12px 0 30px 0;
+      margin: 16px 0 30px 0;
+      background: linear-gradient(98deg, #f8f9fd 68%, #ffe88514 90%);
+      border-radius: 11px;
+      padding: 17px 21px 18px 21px;
+      box-shadow: 0 0 0 1px #ffc40023;
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 1.14em;
-      box-shadow: 0 0 0 1px #ffc40045;
+      gap: 18px;
+      font-size: 1.22em;
+      color: var(--neb-text);
+      position: relative;
+      overflow: hidden;
     }
     .token-info svg {
       flex-shrink: 0;
-      width: 30px;
-      height: 30px;
-      color: #ffd600;
-      filter: drop-shadow(0 0 4px #ffd60069);
+      width: 38px; height: 38px;
+      color: var(--neb-gold);
+      filter: drop-shadow(0 0 6px #ffd600b0);
+      background: #ffd60011;
+      border-radius: 9px;
+      border: 1.5px solid #ffd6002c;
+      padding: 2px;
     }
-    .field { display: flex; flex-direction: column; margin-bottom: 23px; }
+    .token-info b {
+      color: var(--neb-blue);
+      font-weight: 700;
+    }
+    .token-info span { display: block;}
+    .token-info small {
+      display: block;
+      color: var(--neb-muted);
+      font-size: 0.95em;
+      margin-top: 2.5px;
+    }
+    .divider {
+      margin: 0 0 6px 0;
+      height: 1.8px;
+      background: linear-gradient(to right, var(--neb-gold) 10%, #fff 60%, var(--neb-blue) 90%);
+      border: none;
+      border-radius: 2px;
+      opacity: 0.12;
+    }
+    .field { display: flex; flex-direction: column; margin-bottom: 24px; }
     .btn {
-      background: linear-gradient(98deg, #ffd600 45%, #ffe885 93%);
-      color: #231d0c;
+      background: linear-gradient(100deg, var(--neb-gold-light) 60%, var(--neb-gold) 83%);
+      color: #463700;
       font-weight: bold;
-      border: 0;
-      border-radius: 24px;
-      padding: 16px;
+      border: none;
+      border-radius: 33px;
+      font-size: 1.16em;
+      padding: 17px 0 15px 0;
       cursor: pointer;
-      margin-top: 10px;
-      font-size: 1.13em;
-      transition: box-shadow 0.18s, background 0.18s;
-      box-shadow: 0 2px 14px #ffd60039;
-      text-shadow: 0 1px 5px #fffbe580;
+      margin: 7px 0 0px 0;
+      box-shadow: 0 2.5px 13px #ffd60038;
+      text-shadow: 0 1px 5px #fffbe570;
+      letter-spacing:.02em;
+      transition: all .18s cubic-bezier(.5,0,.6,1.1);
     }
-    .btn:hover {
-      background: linear-gradient(120deg, #ffe885 28%, #ffd600 82%);
-      box-shadow: 0 5px 24px #ffd60072;
+    .btn:hover, .btn:focus {
+      outline: none;
+      background: linear-gradient(120deg, #ffe885 35%, #ffd600 92%);
+      box-shadow: 0 7px 26px #ffd60079, 0 2px 13px #FFD60020;
+      color: #211400;
     }
     #status {
-      margin-top: 14px;
-      min-height: 28px;
-      font-size: 1.05em;
+      min-height: 29px;
+      margin-top: 10px;
+      font-size: 1.07em;
       text-align: center;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
-    #wallet { word-break: break-all; color: #2137be; font-weight: 600; text-align: center; margin-top: 4px;}
-    .success { color: #008132; }
-    .error { color: #ce002c; }
-    .info { color: #3e5fd1; }
+    #wallet { color: var(--neb-blue); font-weight: 700; text-align: center; margin-top: 6px; word-break: break-all; }
+    .success { color: #0c7126; }
+    .error { color: #e02135; }
+    .info { color: var(--neb-blue); }
+    .muted {color:#838fac; font-weight: 550;}
+    .claim-summary { color: #252f60; font-size: 1.04em; margin-bottom: 4px; font-weight: 600; }
     footer {
       text-align: center;
-      margin: 38px 0 16px 0;
+      margin: 34px 0 18px 0;
       color: #b6bacf;
       font-size: 1em;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
-    @media (max-width: 500px) {
-      .container { margin: 10vw 3vw 0 3vw; padding: 24px 7vw 12vw 7vw; }
+    footer .brand { font-weight:700;}
+    @media (max-width: 540px) {
+      .container { margin: 12vw 2vw 0 2vw; padding: 22px 3vw 4vw 3vw;}
+      h1 { font-size: 1.55em;}
+      .token-info { font-size:.99em;}
+      .btn { font-size:1em;}
     }
   </style>
-  <!-- Load ethers.js v5+ -->
+
+  <!-- ethers v5+ -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <!-- Web3Modal v2+ -->
   <script src="https://unpkg.com/@web3modal/standalone@2.7.2/dist/web3modal-standalone.umd.js"></script>
@@ -115,29 +175,31 @@
 </head>
 <body>
   <div class="container">
-    <!-- Nebit Logo (replace with your own if desired) -->
+    <!-- Logo -->
     <img src="https://i.imgur.com/dKSDj6g.png" class="logo" alt="Nebit Logo"/>
     <h1>Nebit <span class="brand">Airdrop</span></h1>
     <div class="token-info">
-      <!-- Example icon -->
-      <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="currentColor"/><text x="16" y="22" fill="#262655" font-size="14" text-anchor="middle" font-family="Poppins,Arial">NEB</text></svg>
+      <svg viewBox="0 0 32 32" width="38" height="38"><circle cx="16" cy="16" r="13.5" fill="currentColor"/><text x="16" y="22" fill="#262655" font-size="14" text-anchor="middle" font-family="Montserrat,Arial">NEB</text></svg>
       <span>
-        <b>Claim 100 NEB</b> by paying <b>0.00001 BNB</b> fee<br>
-        <span style="color:#9ea6b1; font-size:0.96em;">One claim per wallet</span>
+        <b>Claim 100 NEB</b> <span class="muted">&middot; Fee: <b>0.00001 BNB</b></span><br>
+        <small>One claim per wallet &ndash; BNB Smart Chain</small>
       </span>
     </div>
+    <hr class="divider"/>
     <div class="field">
-      <button class="btn" id="connectBtn">Connect Wallet</button>
+      <button class="btn" id="connectBtn" type="button">Connect Wallet</button>
       <span id="wallet"></span>
     </div>
     <div class="field">
-      <button class="btn" id="claimBtn" style="display:none;">Claim 100 NEB</button>
+      <button class="btn" id="claimBtn" style="display:none;" type="button">Claim 100 NEB Token</button>
     </div>
+    <div class="claim-summary" id="claimSummary"></div>
     <div id="status"></div>
   </div>
   <footer>
-    Powered by <span class="brand" style="font-weight:600;">NEB</span> / Nebit &bull; On BNB Smart Chain.
+    Powered by <span class="brand">NEB</span> &bull; On <span style="font-weight:600;color:#1437be">BNB Smart Chain</span>.
   </footer>
+
 <script type="text/javascript">
 // ----------- CONFIG -----------
 const NEBIT_TOKEN_ADDR = "0x71013E2cfcd28Ba1b45229ff74D03539cB367b47";
@@ -150,17 +212,15 @@ const AIRDROP_ABI = [
   {"inputs":[],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"},
   {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"hasClaimed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
 ];
-// WalletConnect ProjectID: get yours at https://cloud.walletconnect.com
 const WALLETCONNECT_PROJECT_ID = "906a19da6aad6ba3bf81480626689b1d";
 
-// Web3Modal v2+ config
+// WalletConnect fallback parameters
 const chains = [{
   chainId: BNB_CHAIN_ID,
   name: "BNB Smart Chain",
   rpc: "https://bsc-dataseed1.binance.org",
   nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 }
 }];
-
 const metadata = {
   name: "Nebit Airdrop",
   description: "Claim your 100 NEB airdrop on BNB Smart Chain",
@@ -168,57 +228,93 @@ const metadata = {
   icons: ["https://i.imgur.com/dKSDj6g.png"],
 };
 
-const web3Modal = window.Web3ModalStandalone.default({
-  projectId: WALLETCONNECT_PROJECT_ID,
-  chains,
-  walletConnectVersion: 2,
-  enableStandaloneMode: true,
-  themeMode: "light",
-  metadata,
-});
-
 // State
-let ethersProvider, signer, account, airdropContract, selectedWallet;
+let ethersProvider, signer, account, airdropContract, selectedWallet = "Wallet";
 
 // Elements
 const connectBtn = document.getElementById('connectBtn');
 const claimBtn = document.getElementById('claimBtn');
 const walletSpan = document.getElementById('wallet');
 const statusDiv = document.getElementById('status');
+const claimSummary = document.getElementById('claimSummary');
 
-// Connect wallet
+// Main Connect Flow: Extension first, fallback WalletConnect
 connectBtn.onclick = async function() {
+  // Detect injected wallet (MetaMask, Brave, Coinbase Extension, etc.)
+  if (window.ethereum && (window.ethereum.isMetaMask || window.ethereum.isBraveWallet || window.ethereum.isCoinbaseWallet || window.ethereum.providers)) {
+    try {
+      // If multiple injected providers (EIP-5749), try all
+      let ethProvider = window.ethereum;
+      if (window.ethereum.providers && Array.isArray(window.ethereum.providers)) {
+        ethProvider = window.ethereum.providers.find(p=>p.isMetaMask) || window.ethereum.providers[0];
+      }
+      await ethProvider.request({ method: "eth_requestAccounts" });
+      ethersProvider = new ethers.providers.Web3Provider(ethProvider, "any");
+      signer = ethersProvider.getSigner();
+      account = await signer.getAddress();
+      selectedWallet = ethProvider.isMetaMask ? "MetaMask" : ethProvider.isBraveWallet ? "Brave" : ethProvider.isCoinbaseWallet ? "Coinbase" : "Extension";
+      // Switch to BNB Smart Chain
+      await switchToBNBChain(ethProvider);
+      walletSpan.innerText = shorten(account) + " (" + selectedWallet + ")";
+      connectBtn.style.display = 'none';
+      claimBtn.style.display = '';
+      status("Wallet connected.", "success");
+      claimSummary.innerText = "";
+      airdropContract = new ethers.Contract(AIRDROP_ADDR, AIRDROP_ABI, signer);
+      checkIfClaimed();
+      // Reload on network/account switch
+      ethProvider.on && ethProvider.on('accountsChanged', ()=>window.location.reload());
+      ethProvider.on && ethProvider.on('chainChanged', ()=>window.location.reload());
+      return;
+    } catch (err) {
+      status("Connection failed: " + (err.message || err), "error");
+      claimSummary.innerText = "";
+    }
+  }
+
+  // Fallback: WalletConnect via Web3Modal
   try {
+    const web3Modal = window.Web3ModalStandalone.default({
+      projectId: WALLETCONNECT_PROJECT_ID,
+      chains,
+      walletConnectVersion: 2,
+      enableStandaloneMode: true,
+      themeMode: "light",
+      metadata,
+    });
     const providerInstance = await web3Modal.connect();
     ethersProvider = new ethers.providers.Web3Provider(providerInstance, "any");
     signer = ethersProvider.getSigner();
     account = await signer.getAddress();
-    selectedWallet = providerInstance.isMetaMask ? "MetaMask" : providerInstance.isWalletConnect ? "WalletConnect" : "Wallet";
-    await switchToBNBChain();
+    selectedWallet = providerInstance.isMetaMask ? "MetaMask" : providerInstance.isWalletConnect ? "WalletConnect" : "WalletConnect";
+    await switchToBNBChain(providerInstance);
     walletSpan.innerText = shorten(account) + " (" + selectedWallet + ")";
     connectBtn.style.display = 'none';
     claimBtn.style.display = '';
     status("Wallet connected.", "success");
+    claimSummary.innerText = "";
     airdropContract = new ethers.Contract(AIRDROP_ADDR, AIRDROP_ABI, signer);
     checkIfClaimed();
-    // Listen for account/network change (optional reload)
     providerInstance.on && providerInstance.on('accountsChanged', ()=>window.location.reload());
     providerInstance.on && providerInstance.on('chainChanged', ()=>window.location.reload());
   } catch (err) {
     status("Connection failed: " + (err.message || err), "error");
+    claimSummary.innerText = "";
   }
 };
 
-async function switchToBNBChain() {
-  if (!window.ethereum) return;
+// Switch to BNB Chain (if needed)
+async function switchToBNBChain(providerObj) {
+  if (!providerObj) return;
   try {
-    await window.ethereum.request({
+    await providerObj.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: BNB_CHAIN_HEX }]
     });
   } catch (e) {
+    // Add chain if missing
     if (e.code === 4902 || (e.message && e.message.includes('not added'))) {
-      await window.ethereum.request({
+      await providerObj.request({
         method: 'wallet_addEthereumChain',
         params: [{
           chainId: BNB_CHAIN_HEX,
@@ -232,36 +328,51 @@ async function switchToBNBChain() {
   }
 }
 
+// Claim Button Logic
 claimBtn.onclick = async function() {
   if (!account) { status("Please connect your wallet first.","error"); return; }
   if (!airdropContract) airdropContract = new ethers.Contract(AIRDROP_ADDR, AIRDROP_ABI, signer);
   claimBtn.disabled = true;
   status("Checking eligibility...", "info");
+  claimSummary.innerText = "";
   try {
     let already = await airdropContract.hasClaimed(account);
-    if (already) { status("You have already claimed your NEB airdrop.", "error"); claimBtn.disabled = false; return; }
+    if (already) {
+      status("You have already claimed your NEB airdrop.", "error");
+      claimBtn.disabled = false;
+      claimBtn.style.background = "#e7e8ed";
+      claimSummary.innerText = "";
+      return;
+    }
     status("Submitting claim (waiting for wallet)...", "info");
     let tx = await airdropContract.claim({value: ethers.utils.parseEther(CLAIM_FEE_BNB)});
-    status("Transaction sent! Waiting for confirmation...<br>TX: <a href='https://bscscan.com/tx/" + tx.hash + "' target='_blank'>" + tx.hash.substring(0,20) + "...</a>", "success");
+    status("Transaction sent! Waiting for confirmation...<br>TX: <a href='https://bscscan.com/tx/" + tx.hash + "' target='_blank'>" + tx.hash.substring(0,26) + "...</a>", "success");
+    claimSummary.innerHTML = "Confirmed wallets get <b>"+CLAIM_AMOUNT+" NEB</b> to their address.<br>Fee: <b>"+CLAIM_FEE_BNB+" BNB</b>";
     await tx.wait();
-    status("🎉 Claim successful! 100 NEB sent to your wallet.<br><a href='https://bscscan.com/address/" + NEBIT_TOKEN_ADDR + "' target='_blank'>View NEB token</a>", "success");
+    status("🎉 Claim successful! 100 NEB sent.<br><a href='https://bscscan.com/address/" + NEBIT_TOKEN_ADDR + "' target='_blank'>View NEB token</a>", "success");
+    claimSummary.innerHTML = "";
   } catch (err) {
-    if (err.code === 4001) { status("User rejected transaction.", "error"); }
-    else if (err.data && err.data.message) { status("Error: " + err.data.message, "error"); }
+    if (err && err.code === 4001) { status("User rejected transaction.", "error"); }
+    else if (err && err.data && err.data.message) { status("Error: " + err.data.message, "error"); }
     else { status("Error: " + (err.reason || err.message || err), "error"); }
+    claimBtn.disabled = false;
+    claimSummary.innerText = "";
   }
-  claimBtn.disabled = false;
 };
 
+// Status helper
 function status(msg, cls) {
   statusDiv.innerHTML = msg;
   statusDiv.className = cls || "";
 }
 
+// Shorten address
 function shorten(addr) {
-  return addr.slice(0, 7) + "..." + addr.slice(-4);
+  if (!addr || addr.length < 10) return addr;
+  return addr.slice(0, 8) + "..." + addr.slice(-4);
 }
 
+// Check eligibility
 async function checkIfClaimed() {
   try {
     let already = await airdropContract.hasClaimed(account);
@@ -269,13 +380,16 @@ async function checkIfClaimed() {
       status("You have already claimed your NEB airdrop.", "error");
       claimBtn.disabled = true;
       claimBtn.style.background = "#e7e8ed";
+      claimSummary.innerHTML = "";
     } else {
       status("Eligible to claim! Pay 0.00001 BNB to receive 100 NEB.", "success");
       claimBtn.disabled = false;
       claimBtn.style.background = "";
+      claimSummary.innerHTML = "";
     }
-  } catch(e) {
+  } catch (e) {
     status("Cannot check claim status: " + (e.message || e), "error");
+    claimSummary.innerHTML = "";
   }
 }
 </script>
