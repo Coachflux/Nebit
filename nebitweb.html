@@ -1,0 +1,884 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<title>NEBIT Token | Empowering Decentralized Finance</title> 
+<link rel="icon" type="image/png" href="nebit-favicon.png" /> 
+<style> 
+:root { 
+  --clr-main: #14b885; 
+  --clr-bg: #f8fafc; 
+  --clr-accent: #2F577F; 
+  --clr-hero: #091c33; 
+  --clr-footer: #1e415e; 
+  --clr-pie1: #14b885; 
+  --clr-pie2: #feb35d; 
+  --clr-pie3: #556edf; 
+  --clr-pie4: #88e69f; 
+  --clr-pie5: #e6f7a4; 
+  --radius: 14px; 
+  --shadow: 0 10px 28px rgba(0,0,0,.09); 
+} 
+* { 
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+} 
+body { 
+  background: var(--clr-bg); 
+  color: #191b22; 
+  font-family: 'Inter', Arial, sans-serif; 
+  scroll-behavior: smooth; 
+  font-size: clamp(16px, 2.5vw, 18px);
+} 
+a { 
+  color: var(--clr-main); 
+  text-decoration: none; 
+  transition: color 0.18s; 
+} 
+a:hover { 
+  color: var(--clr-accent); 
+}
+
+/* HERO SECTION */
+.hero {
+  background: linear-gradient(120deg, var(--clr-main) 10%, var(--clr-hero) 90%);
+  color: #fff;
+  padding-bottom: clamp(40px, 10vw, 80px);
+  min-height: clamp(400px, 80vw, 520px);
+  position: relative;
+  overflow: hidden;
+}
+.navbar { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(10px, 3vw, 20px) clamp(10px, 2vw, 18px);
+  flex-wrap: wrap;
+}
+.nav-logo { 
+  display: flex; 
+  align-items: center; 
+  flex: 1;
+}
+.logo-img { 
+  height: clamp(32px, 6vw, 42px); 
+  width: clamp(32px, 6vw, 42px); 
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+.brand { 
+  font-size: clamp(1.2em, 3vw, 1.5em); 
+  font-weight: 700; 
+  margin-left: 10px; 
+}
+.nav-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+.nav-links { 
+  display: none; 
+  flex-direction: column; 
+  gap: 10px; 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 10px; 
+  background: #fff; 
+  border-radius: var(--radius); 
+  box-shadow: var(--shadow); 
+  position: absolute; 
+  top: clamp(30px, 5vw, 40px); 
+  right: 0; 
+  z-index: 1000; 
+  min-width: 200px;
+}
+.nav-links.active { 
+  display: flex; 
+}
+.nav-links li a { 
+  color: var(--clr-hero); 
+  font-weight: 500; 
+  padding: 8px 16px; 
+  display: block;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+.nav-toggle { 
+  display: none; 
+  font-size: clamp(1.2em, 3vw, 1.5em); 
+  background: none; 
+  border: none; 
+  color: #fff; 
+  cursor: pointer; 
+  padding: 5px;
+}
+.cta { 
+  background: var(--clr-main); 
+  color: #fff !important; 
+  padding: clamp(8px, 2vw, 12px) clamp(16px, 3vw, 28px); 
+  border-radius: var(--radius); 
+  font-weight: 600; 
+  transition: background 0.2s; 
+  box-shadow: var(--shadow);
+  flex: 0 0 auto;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+.cta.ghost { 
+  background: transparent; 
+  border: 2px solid #fff; 
+  color: #fff !important;
+}
+.cta.large { 
+  font-size: clamp(1em, 2.5vw, 1.15em); 
+}
+.hero-content { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
+  margin-top: clamp(40px, 10vw, 70px); 
+}
+.hero-content h1 { 
+  font-size: clamp(1.8em, 5vw, 2.5em); 
+  margin: 0 0 20px; 
+}
+.subheadline { 
+  font-size: clamp(1em, 3vw, 1.3em); 
+  margin-bottom: 32px; 
+}
+.hero-bg { 
+  background: url('images/hero-pattern.svg'); 
+  opacity: 0.15; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  z-index: 0;
+}
+.hero-actions { 
+  display: flex; 
+  gap: clamp(16px, 3vw, 28px); 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* SECTIONS */
+.section { 
+  padding: clamp(40px, 10vw, 70px) 0 clamp(30px, 8vw, 50px); 
+}
+h2 { 
+  text-align: center; 
+  font-size: clamp(1.5em, 4vw, 2em); 
+  margin-bottom: clamp(16px, 3vw, 28px); 
+}
+.container { 
+  max-width: 1100px; 
+  margin: 0 auto; 
+  padding: 0 clamp(10px, 2vw, 18px); 
+}
+
+/* ECOSYSTEM */
+.features-grid, .feature-cards { 
+  display: flex; 
+  gap: clamp(16px, 3vw, 24px); 
+  flex-wrap: wrap; 
+  justify-content: center; 
+}
+.features-grid .feature, .feature-cards .card { 
+  background: #fff; 
+  border-radius: var(--radius); 
+  box-shadow: var(--shadow); 
+  padding: clamp(16px, 3vw, 28px) clamp(12px, 2vw, 20px); 
+  text-align: center; 
+  min-width: clamp(160px, 30vw, 182px); 
+  margin: 10px 0; 
+}
+.feature img { 
+  height: clamp(32px, 6vw, 48px); 
+}
+
+/* TOKENOMICS */
+.tokenomics-grid { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: clamp(30px, 5vw, 60px); 
+  justify-content: center; 
+}
+.token-details ul { 
+  margin: 0; 
+  padding: 0; 
+  list-style: none; 
+  line-height: 1.8; 
+}
+.tokenomics .token-emissions { 
+  margin-top: clamp(12px, 2vw, 22px); 
+}
+.token-piechart img { 
+  max-width: clamp(180px, 30vw, 220px); 
+}
+.token-piechart ul { 
+  font-size: clamp(0.9em, 2vw, 0.97em); 
+  margin: clamp(8px, 2vw, 14px) 0 0; 
+  padding: 0; 
+  list-style: none; 
+}
+.muted { 
+  color: #888; 
+  font-style: italic; 
+}
+
+/* RAISED FUND SECTION */
+.raised-fund { 
+  background: #f1f9f5; 
+  border-top: 1px solid #e0ece6; 
+  border-bottom: 1px solid #e0ece6;
+}
+.raised-fund h2 { 
+  text-align: center; 
+  margin-bottom: clamp(12px, 3vw, 24px); 
+}
+.fund-details { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: clamp(20px, 5vw, 40px); 
+  align-items: center; 
+  justify-content: center; 
+  margin-bottom: 12px;
+}
+.fund-amount { 
+  background: #fff; 
+  border-radius: var(--radius); 
+  padding: clamp(16px, 4vw, 32px) clamp(20px, 4vw, 38px); 
+  box-shadow: var(--shadow); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  min-width: clamp(180px, 30vw, 200px);
+}
+.fund-amount .amount { 
+  font-size: clamp(1.8em, 4vw, 2.3em); 
+  color: var(--clr-main); 
+  font-weight: 700; 
+}
+.fund-amount .label { 
+  font-size: clamp(0.9em, 2vw, 1.05em); 
+  color: #7f8a99; 
+  margin-top: 6px;
+}
+.fund-info { 
+  max-width: clamp(360px, 50vw, 460px); 
+  font-size: clamp(0.9em, 2vw, 1.08em); 
+}
+.fund-summary ul { 
+  display: flex; 
+  gap: clamp(20px, 4vw, 36px); 
+  justify-content: center; 
+  margin: 12px 0 0; 
+  padding: 0; 
+  list-style: none; 
+  font-size: clamp(0.9em, 2vw, 1.07em); 
+}
+
+/* PARTNERSHIP SECTION */
+.partnership { 
+  padding: clamp(20px, 5vw, 40px) 0; 
+  background: #fff; 
+}
+.partnership h2 { 
+  text-align: center; 
+  margin-bottom: clamp(10px, 2vw, 18px); 
+}
+.partner-marquee {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  height: clamp(48px, 10vw, 76px);
+  background: #f8fafc;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 18px rgba(20,184,133,0.07);
+  display: flex;
+  align-items: center;
+}
+.partner-logos {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 5vw, 56px);
+  animation: marquee 18s linear infinite;
+  will-change: transform;
+}
+.partner-logo {
+  max-height: clamp(32px, 8vw, 55px);
+  width: auto;
+  filter: grayscale(0.3) brightness(0.97);
+  opacity: 0.92;
+  transition: filter 0.2s;
+}
+.partner-logo:hover {
+  filter: none;
+  opacity: 1;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* BUY STEPS */
+.buy-steps { 
+  counter-reset: steps; 
+  list-style: none; 
+  margin: 0; 
+  padding: 0; 
+}
+.buy-steps li { 
+  margin-bottom: clamp(12px, 3vw, 20px); 
+  position: relative; 
+  padding-left: clamp(24px, 5vw, 32px); 
+}
+.buy-steps li::before { 
+  counter-increment: steps; 
+  content: counter(steps) "."; 
+  position: absolute; 
+  left: 0; 
+  top: 0; 
+  font-weight: 700; 
+  color: var(--clr-main); 
+}
+
+/* COMMUNITY */
+.community-stats { 
+  display: flex; 
+  gap: clamp(24px, 5vw, 48px); 
+  justify-content: center; 
+  margin-bottom: clamp(16px, 3vw, 28px); 
+  flex-wrap: wrap;
+}
+.community-stats .stat-number { 
+  font-size: clamp(1.6em, 4vw, 2.1em); 
+  color: var(--clr-accent); 
+  font-weight: 700;
+}
+.community-cta { 
+  display: flex; 
+  gap: clamp(12px, 3vw, 20px); 
+  justify-content: center; 
+  margin-bottom: clamp(12px, 3vw, 22px); 
+  flex-wrap: wrap;
+}
+.testimonials { 
+  display: flex; 
+  gap: clamp(24px, 5vw, 44px); 
+  justify-content: center; 
+  flex-wrap: wrap;
+}
+.testimonials blockquote { 
+  background: #fff; 
+  padding: clamp(12px, 3vw, 20px) clamp(12px, 3vw, 20px) clamp(10px, 2vw, 16px); 
+  border-radius: var(--radius); 
+  font-style: italic; 
+  max-width: clamp(280px, 45vw, 400px);
+}
+
+/* TRADING PLATFORM */
+.trading-platform { 
+  text-align: center; 
+}
+.trading-platform .platform-image {
+  max-width: 100%;
+  border: 2px solid var(--clr-accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), 0 0 20px rgba(20,184,133,0.2);
+  margin: 0 auto clamp(16px, 3vw, 28px);
+  display: block;
+  transition: transform 0.3s ease;
+}
+.trading-platform .platform-image:hover {
+  transform: scale(1.02);
+}
+.trading-platform h3 { 
+  font-size: clamp(1.2em, 3vw, 1.5em); 
+  margin-bottom: clamp(10px, 2vw, 16px); 
+  color: var(--clr-accent); 
+}
+
+/* ROADMAP */
+.timeline { 
+  border-left: 3px solid var(--clr-main); 
+  margin: clamp(20px, 5vw, 36px) auto clamp(12px, 3vw, 20px); 
+  max-width: clamp(400px, 60vw, 500px); 
+  position: relative; 
+}
+.timeline-event { 
+  position: relative; 
+  margin-bottom: clamp(20px, 4vw, 32px); 
+}
+.timeline-dot { 
+  width: clamp(12px, 2vw, 18px); 
+  height: clamp(12px, 2vw, 18px); 
+  background: var(--clr-main); 
+  border-radius: 50%; 
+  position: absolute; 
+  left: clamp(-8px, -1vw, -11px); 
+  top: 0; 
+}
+.timeline-content { 
+  margin-left: clamp(16px, 3vw, 28px); 
+}
+.timeline-content h4 { 
+  margin: 0 0 3px 0; 
+  font-size: clamp(1em, 2vw, 1.18em); 
+}
+.blog-ticker { 
+  background: var(--clr-main); 
+  color: #fff; 
+  padding: clamp(8px, 2vw, 10px); 
+  border-radius: var(--radius); 
+  text-align: center; 
+  margin-top: clamp(8px, 2vw, 14px); 
+}
+
+/* TEAM */
+.team-grid { 
+  display: flex; 
+  gap: clamp(20px, 4vw, 36px); 
+  justify-content: center; 
+  flex-wrap: wrap; 
+}
+.team-member { 
+  text-align: center; 
+}
+.team-member img { 
+  width: clamp(70px, 15vw, 90px); 
+  height: clamp(70px, 15vw, 90px); 
+  border-radius: 50%; 
+  border: 2px solid var(--clr-main); 
+  margin-bottom: 10px; 
+}
+
+/* FOOTER */
+.footer { 
+  background: var(--clr-footer); 
+  color: #fff; 
+  padding: clamp(20px, 5vw, 40px) 0 clamp(12px, 3vw, 24px); 
+}
+.footer-cta { 
+  display: flex; 
+  gap: clamp(12px, 3vw, 18px); 
+  justify-content: center; 
+  margin-bottom: 12px; 
+  flex-wrap: wrap;
+}
+.footer-links { 
+  display: flex; 
+  gap: clamp(12px, 3vw, 18px); 
+  justify-content: center; 
+  margin-bottom: 8px; 
+  flex-wrap: wrap;
+}
+.newsletter-form { 
+  text-align: center; 
+  margin-top: 8px;
+}
+.newsletter-form input[type=email] { 
+  padding: clamp(6px, 2vw, 8px) clamp(8px, 2vw, 14px); 
+  border-radius: 8px; 
+  border: none; 
+  margin-right: 8px;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+.newsletter-form button { 
+  padding: clamp(6px, 2vw, 9px) clamp(12px, 2vw, 18px); 
+  border: none; 
+  background: var(--clr-main); 
+  color: #fff; 
+  border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+/* COPYRIGHT FOOTER */
+.copyright { 
+  background: var(--clr-footer); 
+  color: #fff; 
+  text-align: center; 
+  padding: clamp(8px, 2vw, 10px) 0; 
+  border-top: 1px solid rgba(255,255,255,0.1); 
+  font-size: clamp(0.8em, 2vw, 0.9em); 
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 820px) {
+  .nav-toggle { 
+    display: block; 
+  }
+  .navbar { 
+    gap: clamp(8px, 2vw, 10px);
+  }
+  .features-grid, .feature-cards, .tokenomics-grid, .team-grid { 
+    flex-direction: column; 
+    gap: clamp(12px, 3vw, 16px); 
+    align-items: center;
+  }
+  .fund-details, .fund-summary ul { 
+    flex-direction: column; 
+    gap: clamp(12px, 3vw, 16px); 
+    align-items: center;
+  }
+  .partner-marquee { 
+    height: clamp(36px, 8vw, 48px);
+  }
+  .partner-logos { 
+    gap: clamp(16px, 4vw, 28px);
+  }
+  .partner-logo { 
+    max-height: clamp(24px, 6vw, 32px);
+  }
+}
+@media (min-width: 821px) {
+  .nav-links { 
+    display: flex !important; 
+    flex-direction: row; 
+    position: static; 
+    background: none; 
+    box-shadow: none; 
+    padding: 0; 
+  }
+  .nav-links li a { 
+    color: #fff; 
+  }
+}
+@media (max-width: 480px) {
+  .hero-content h1 { 
+    font-size: clamp(1.5em, 6vw, 2em); 
+  }
+  .subheadline { 
+    font-size: clamp(0.9em, 3vw, 1.1em); 
+  }
+  .cta { 
+    padding: clamp(6px, 2vw, 10px) clamp(12px, 3vw, 20px); 
+  }
+  .hero-actions { 
+    gap: clamp(12px, 3vw, 16px); 
+  }
+}
+</style> 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    // Toggle dropdown menu
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+        navLinks.classList.remove('active');
+      }
+    });
+
+    // Close dropdown when a link is clicked
+    const navItems = document.querySelectorAll('.nav-links li a');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  });
+</script>
+</head> 
+<body> 
+<!-- HERO SECTION --> 
+<header class="hero"> 
+<nav class="navbar"> 
+<div class="nav-logo"> 
+<img src="./img/nebit.webp" alt="NEBIT Logo" class="logo-img"> 
+<span class="brand">NEBIT</span> 
+</div> 
+<div class="nav-menu">
+<button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+<ul class="nav-links"> 
+<li><a href="#ecosystem">Ecosystem</a></li> 
+<li><a href="#tokenomics">Tokenomics</a></li> 
+<li><a href="#raised-fund">Raised Fund</a></li> 
+<li><a href="#features">Features</a></li> 
+<li><a href="#trading-platform">Trading Platform</a></li> 
+<li><a href="#community">Community</a></li> 
+<li><a href="#roadmap">Roadmap</a></li> 
+</ul> 
+</div>
+<a href="#buy" class="cta">Get NEBIT</a> 
+</nav> 
+<div class="hero-content"> 
+<h1>Empowering the Future of Decentralized Finance with NEBIT</h1> 
+<p class="subheadline">A new era of secure, scalable, and community-driven digital value on BNB Smart Chain.</p> 
+<div class="hero-actions"> 
+<a href="#buy" class="cta large">Get NEBIT</a> 
+<a href="#whitepaper" class="cta ghost">Read Whitepaper</a>
+</div>
+</div> 
+<div class="hero-bg"></div> 
+</header> 
+<!-- ECOSYSTEM OVERVIEW --> 
+<section id="ecosystem" class="section ecosystem"> 
+<div class="container"> 
+<h2>NEBIT Ecosystem</h2> 
+<p>NEBIT is a next-generation digital asset and foundational token for the decentralized ecosystem of tomorrow. Designed with robust security and scalability, NEBIT powers a suite of financial and community-driven applications on BNB Smart Chain.</p> 
+<div class="features-grid"> 
+<div class="feature"> 
+<img src="icons/defi.svg" alt="DeFi" /> <span>Decentralized Finance</span> </div> 
+<div class="feature"> 
+<img src="icons/governance.svg" alt="Governance" /> <span>Governance & Voting</span> </div> 
+<div class="feature"> 
+<img src="icons/dapps.svg" alt="dApps" /> <span>Exclusive dApps Access</span> </div> 
+<div class="feature"> 
+<img src="icons/rewards.svg" alt="Staking" /> <span>Rewards & Staking</span> </div> 
+<div class="feature"> 
+<img src="icons/community.svg" alt="Community" /> <span>Community Incentives</span> </div> 
+<div class="feature"> 
+<img src="icons/secure.svg" alt="Security" /> <span>Secure Transactions</span> </div> 
+</div> </div> </section> 
+<!-- TOKENOMICS --> 
+<section id="tokenomics" class="section tokenomics"> 
+<div class="container"> 
+<h2>Tokenomics</h2> 
+<div class="tokenomics-grid"> 
+<div class="token-details"><ul> 
+<li><strong>Ticker:</strong> NEBIT</li> 
+<li><strong>Standard:</strong> ERC20 (BNB Chain)</li> 
+<li><strong>Contract:</strong> <a href="https://thirdweb.com/56/0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" target="_blank">0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE</a></li> 
+<li><strong>Decimals:</strong> 18</li> 
+<li><strong>Max Supply:</strong> <span class="muted">100,000,000,000</span></li> 
+<li><strong>Audit:</strong> <a href="#audit" class="muted">Audit Report</a></li> 
+</ul> </div> 
+<div class="token-piechart"> 
+<img src="images/tokenomics-pie.svg" alt="Tokenomics Pie Chart" /> 
+<ul> 
+<li><span style="color:var(--clr-pie1)">■</span> Community: [10]%</li> 
+<li><span style="color:var(--clr-pie2)">■</span> Staking/Rewards: [x]%</li> 
+<li><span style="color:var(--clr-pie3)">■</span> Team & Dev: [2]%</li> 
+<li><span style="color:var(--clr-pie4)">■</span> Ecosystem: [x]%</li> 
+<li><span style="color:var(--clr-pie5)">■</span> Treasury: [x]%</li> 
+</ul> </div> </div> 
+<div class="token-emissions"> 
+<p><strong>Distribution:</strong> [Describe emissions/locking/burns/deflation here.]</p> </div> </div> </section> 
+<!-- RAISED FUND SECTION --> 
+<section id="raised-fund" class="section raised-fund"> 
+<div class="container"> 
+<h2>Raised Funds</h2> 
+<div class="fund-details"> 
+<div class="fund-amount"> 
+<span class="amount">$55,500,000</span> 
+<span class="label">Total Funds Raised</span> </div> 
+<div class="fund-info"> 
+<p>NEBIT has successfully raised over $55.5M from strategic partners, angel investors, and the vibrant DeFi community. These funds empower the development of innovative products and community-centric growth.</p> </div> </div> 
+<div class="fund-summary"> 
+<ul> 
+<li><strong>Seed Round:</strong> $8,000,000</li> 
+<li><strong>Private Sale:</strong> $45,200,000</li> 
+<li><strong>Public Sale:</strong> $2,300,000</li> 
+</ul> </div> </div> </section> 
+<!-- PARTNERSHIP SECTION --> 
+<section id="partnership" class="section partnership"> 
+<div class="container"> 
+<h2>Our Partners</h2> 
+<div class="partner-marquee"> 
+<div class="partner-logos"> 
+<img src="images/logo1.png" alt="Partner 1" class="partner-logo" /> 
+<img src="images/logo2.png" alt="Partner 2" class="partner-logo" /> 
+<img src="images/logo3.png" alt="Partner 3" class="partner-logo" /> 
+<img src="images/logo4.png" alt="Partner 4" class="partner-logo" /> 
+<img src="images/logo5.png" alt="Partner 5" class="partner-logo" /> 
+<img src="images/logo1.png" alt="Partner 1" class="partner-logo" /> 
+<img src="images/logo2.png" alt="Partner 2" class="partner-logo" /> 
+<img src="images/logo3.png" alt="Partner 3" class="partner-logo" /> 
+<img src="images/logo4.png" alt="Partner 4" class="partner-logo" /> 
+<img src="images/logo5.png" alt="Partner 5" class="partner-logo" /> 
+</div> </div> </div> </section> 
+<!-- FEATURES --> 
+<section id="features" class="section features"> 
+<div class="container"> 
+<h2>Platform Features</h2> 
+<div class="feature-cards"> 
+<div class="card"> 
+<h3>Wallet App</h3> 
+<p>Send, receive, and manage NEBIT securely across web and mobile platforms.</p> 
+</div> 
+<div class="card"> 
+<h3>dApp Suite</h3> 
+<p>Connect with partner dApps, explore our marketplace and stay tuned for upcoming DeFi integrations.</p> 
+</div> 
+<div class="card"> 
+<h3>On-chain Governance</h3> 
+<p>Shape the future of NEBIT by participating in transparent campaign and governance votes.</p> 
+</div> 
+<div class="card"> 
+<h3>Staking & Rewards</h3> 
+<p>Stake NEBIT for passive returns, liquidity provision rewards, and more.</p> 
+</div> 
+</div> </div> </section> 
+<!-- TRADING PLATFORM SECTION -->
+<section id="trading-platform" class="section trading-platform">
+<div class="container">
+<h2>Nebit Trading Platform</h2>
+<img src="images/trading-platform.png" alt="NEBIT Trading Platform Screenshot" class="platform-image" />
+<h3>Experience Seamless and Secure Trading</h3>
+<p>Our advanced trading platform is designed for both novice and experienced traders. Enjoy real-time market data, customizable charts, spot and futures trading, low transaction fees, and robust security features. Trade NEBIT and a wide range of cryptocurrencies with confidence on the BNB Smart Chain. Integrated with our wallet app for instant deposits and withdrawals, it's the ultimate hub for decentralized trading.</p>
+<a href="#buy" class="cta">Start Trading Now</a>
+</div>
+</section>
+<!-- COMMUNITY --> 
+<section id="community" class="section community"> 
+<div class="container"> 
+<h2>Community & Partnerships</h2> 
+<div class="community-stats"> 
+<div> <span class="stat-number">[x,xxx]</span> <span>Users</span> </div> 
+<div> <span class="stat-number">[xx]</span> <span>Partners</span> </div> 
+<div> <span class="stat-number">[xx]</span> <span>dApps Live</span> </div>
+</div> 
+<div class="community-cta"> 
+<a href="https://t.me/nebit" target="_blank" class="cta">Join Telegram</a> 
+<a href="https://twitter.com/nebit" target="_blank" class="cta ghost">Follow on Twitter</a> 
+<a href="mailto:partners@nebit.io" class="cta ghost">Become a Partner</a> 
+</div> 
+<div class="testimonials"> 
+<blockquote> “NEBIT’s staking rewards are the best I’ve seen. Strong project!”<br/> 
+<span>- User A</span> </blockquote> 
+<blockquote> “Fast, secure, and the governance is truly community-led.”<br/> 
+<span>- User B</span> </blockquote> 
+</div> </div> </section> 
+<!-- GETTING STARTED --> 
+<section id="buy" class="section getting-started"> 
+<div class="container"> 
+<h2>How to Buy NEBIT</h2> 
+<ol class="buy-steps">
+<li>Set up a wallet: <a href="https://metamask.io/" target="_blank">MetaMask</a>, 
+<a href="https://trustwallet.com/" target="_blank">Trust Wallet</a>, etc.</li> 
+<li>Fund with BNB or Stablecoin</li> 
+<li>Swap for NEBIT on <a href="#exchanges" target="_blank">DEX/CEX</a></li> 
+<li>Add the NEBIT contract address to your wallet if needed:<br/> 
+<code>0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE</code> </li> 
+</ol> 
+<p>Look out for NEBIT airdrops, point programs, and referral rewards (coming soon)!</p> 
+</div> </section> 
+<!-- FAQ --> 
+<section id="faq" class="section faq"> 
+<div class="container"> 
+<h2>Frequently Asked Questions</h2> 
+<details> 
+<summary>What is NEBIT?</summary> 
+<p>NEBIT is a secure, community-driven ERC20 token powering decentralized finance on BNB Smart Chain.</p> 
+</details> 
+<details> 
+<summary>Is NEBIT audited?</summary> 
+<p>All contract code is audited. See <a href="#audit">Audit Details</a>.</p>
+</details> 
+<details> 
+<summary>Where can I trade NEBIT?</summary>
+<p>NEBIT is listed on top DEXes and CEXes. See <a href="#exchanges">full list</a>.</p>
+</details>
+<details> 
+<summary>How can I stake or earn NEBIT?</summary>
+<p>Use the NEBIT dApp to access staking and DeFi rewards.</p> 
+</details>
+<details>
+<summary>What wallets support NEBIT?</summary>
+<p>MetaMask, Trust Wallet, OKX, and most BSC-compatible wallets.</p>
+</details>
+<details>
+<summary>Is there a burn or lockup?</summary> 
+<p>Supply and burns are managed via transparent on-chain governance.</p>
+</details> 
+</div> </section> 
+<!-- ROADMAP --> 
+<section id="roadmap" class="section roadmap">
+<div class="container"> 
+<h2>Roadmap & Updates</h2>
+<div class="timeline">
+<div class="timeline-event"> 
+<div class="timeline-dot"></div> 
+<div class="timeline-content">
+<h4>Token Launch</h4> <p>Q4 2025</p> 
+</div>
+</div> 
+<div class="timeline-event">
+<div class="timeline-dot"></div> 
+<div class="timeline-content"> 
+<h4>NFT Marketplace Launch</h4> <p>Q4 2025</p> 
+</div>
+</div> 
+<div class="timeline-event">
+<div class="timeline-dot"></div> 
+<div class="timeline-content">
+<h4>dApp Integrations</h4> <p>Q1 2026</p> 
+</div>
+</div> 
+<div class="timeline-event"> 
+<div class="timeline-dot"></div> 
+<div class="timeline-content"> 
+<h4>DEX/CEX Listings</h4> 
+<p>Q1 2026</p> 
+</div>
+</div> 
+<div class="timeline-event"> 
+<div class="timeline-dot"></div>
+<div class="timeline-content"> 
+<h4>More Features</h4> 
+<p>2026+</p> 
+</div> 
+</div> 
+</div> 
+<div class="blog-ticker">
+<span>Latest: NEBIT partners with [BRAVE] – See full <a href="#press">press release</a></span>
+</div> </div>
+</section> 
+<!-- TEAM & GOVERNANCE --> 
+<section id="team" class="section team"> 
+<div class="container"> 
+<h2>Team & Governance</h2>
+<div class="team-grid"> 
+<div class="team-member"> 
+<img src="images/team1.jpg" alt="Founder 1"/> 
+<h4>Jane Doe</h4>
+<p>Co-Founder & Lead Dev</p>
+</div> 
+<div class="team-member"> 
+<img src="images/team2.jpg" alt="Founder 2"/>
+<h4>John Smith</h4>
+<p>Co-Founder & Strategy</p> 
+</div> </div>
+<div class="governance-details">
+<p>Governance powered by token voting. All proposals are open and transparent. <a href="#governance">Learn more</a>.</p>
+</div>
+</div> </section>
+<!-- FOOTER / FINAL CTAS -->
+<footer class="footer">
+<div class="container"> 
+<div class="footer-cta">
+<a href="#download" class="cta">Download Wallet</a>
+<a href="#buy" class="cta">CLAIM NEBIT</a> 
+<a href="#community" class="cta">Become a Community Leader</a> 
+</div>
+<div class="footer-links"> 
+<a href="#terms">Terms</a> 
+<a href="#privacy">Privacy</a> 
+<a href="#disclaimer">Disclaimer</a> 
+</div> 
+<form class="newsletter-form">
+<label for="newsletter">Subscribe to our newsletter</label> 
+<input type="email" id="newsletter" placeholder="Your email" /> 
+<button type="submit">Subscribe</button>
+</form>
+</div>
+</footer> 
+<!-- COPYRIGHT FOOTER -->
+<div class="copyright">
+<p>&copy; 2025 NEBIT. All rights reserved.</p>
+</div>
+</body>
+</html>
