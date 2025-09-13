@@ -82,3 +82,30 @@ claimBtn.addEventListener("click", async () => {
         claimBtn.disabled = false;
     }
 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    // Toggle dropdown menu
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+        navLinks.classList.remove('active');
+      }
+    });
+
+    // Close dropdown when a link is clicked
+    const navItems = document.querySelectorAll('.nav-links li a');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  });
+
