@@ -49,6 +49,7 @@ a:hover {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  pointer-events: auto; 
 }
 .navbar { 
   display: flex; 
@@ -124,11 +125,13 @@ a:hover {
   box-shadow: var(--shadow);
   flex: 0 0 auto;
   font-size: clamp(14px, 2.5vw, 16px);
+  pointer-events: auto; 
 }
 .cta.ghost { 
   background: transparent; 
   border: 2px solid #fff; 
   color: #fff !important;
+  pointer-events: auto; 
 }
 .cta.large { 
   font-size: clamp(1em, 2.5vw, 1.15em); 
