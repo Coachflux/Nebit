@@ -1,0 +1,27 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(150,150)">
+    <!-- Community: 20% -->
+    <path d="M0,0 L75,0 A75,75 0 0,1 53.04,53.04 Z" fill="#14b885" />
+    <!-- Airdrop: 15% -->
+    <path d="M53.04,53.04 A75,75 0 0,1 0,75 L0,0 Z" fill="#feb35d" />
+    <!-- Team & Dev: 10% -->
+    <path d="M0,75 A75,75 0 0,1 -53.04,53.04 Z" fill="#556edf" />
+    <!-- Ecosystem: 25% -->
+    <path d="M-53.04,53.04 A75,75 0 0,1 -75,0 L0,0 Z" fill="#88e69f" />
+    <!-- Sales: 20% -->
+    <path d="M-75,0 A75,75 0 0,1 -53.04,-53.04 Z" fill="#e6f7a4" />
+    <!-- Staking & Reward: 10% -->
+    <path d="M-53.04,-53.04 A75,75 0 0,1 0,-75 Z" fill="#2F577F" />
+    <!-- Center circle to create donut effect -->
+    <circle cx="0" cy="0" r="50" fill="white" />
+  </g>
+  <!-- Legend -->
+  <g transform="translate(10,10)">
+    <text x="0" y="0" fill="#14b885">■ Community: 20%</text>
+    <text x="0" y="20" fill="#feb35d">■ Airdrop: 15%</text>
+    <text x="0" y="40" fill="#556edf">■ Team & Dev: 10%</text>
+    <text x="0" y="60" fill="#88e69f">■ Ecosystem: 25%</text>
+    <text x="0" y="80" fill="#e6f7a4">■ Sales: 20%</text>
+    <text x="0" y="100" fill="#2F577F">■ Staking & Reward: 10%</text>
+  </g>
+</svg>
