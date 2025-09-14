@@ -4,7 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nebit White Paper</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .title-page {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #fff;
+            border-bottom: 2px solid #14b885;
+        }
+
+        .title-page h1 {
+            font-size: 2.5em;
+            color: #14b885;
+            margin-bottom: 10px;
+        }
+
+        .title-page h2 {
+            font-size: 1.5em;
+            color: #2F577F;
+            margin-bottom: 20px;
+        }
+
+        .title-page p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-top: 20px;
+        }
+
+        nav {
+            background-color: #2F577F;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .toc {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .toc li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .toc li a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #14b885;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .section h3 {
+            color: #2F577F;
+            font-size: 1.5em;
+            margin: 20px 0 10px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin: 10px 0 20px 20px;
+            list-style-type: disc;
+        }
+
+        .section ul ul {
+            list-style-type: circle;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2F577F;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #14b885;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .toc {
+                flex-direction: column;
+                align-items: center;
+            }
+            .toc li {
+                margin: 5px 0;
+            }
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="title-page">
