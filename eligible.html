@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebit Eligible</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .container {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); /* Adjusted shadow to red theme */
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            border: 2px solid #ff0000; /* Red border to match theme */
+        }
+        h2 {
+            color: #ff0000; /* Changed to red */
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: transparent;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #800080, 0 0 30px #0000ff;
+            background: linear-gradient(90deg, #ff0000, #800080, #0000ff); /* Red to purple to blue gradient */
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .referral {
+            margin: 15px 0;
+            font-size: 1.2em;
+            color: #800080; /* Purple for referral text */
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 20px 0;
+        }
+        li {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #ffffff;
+            text-shadow: 0 0 5px #ffffff;
+        }
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #ff0000, #800080); /* Red to purple gradient for buttons */
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px #ff0000;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #cc0000, #660066); /* Darker red to darker purple on hover */
+            box-shadow: 0 0 20px #ff0000, 0 0 30px #800080;
+            transform: translateY(-2px);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+            border: 2px solid #ff0000;
+        }
+        .popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ff0000, #800080);
+        }
+        .popup button:hover {
+            background: linear-gradient(90deg, #cc0000, #660066);
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }
+        .copyright img {
+            height: 25px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .side {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        /* Updated neon background effect with red-purple-blue theme */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, rgba(128, 0, 128, 0.1) 50%, rgba(0, 0, 255, 0.1) 100%, rgba(0, 0, 0, 0.8) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="toggleSide('neb')">Claim 100 NEB</button>
+        <button onclick="toggleSide('bnb')">Claim $50 BNB</button>
+        
+        <div id="neb-side" class="side active">
+            <h2>Claim 100 NEB</h2>
+            <div class="timer" id="neb-timer">00:00:00</div>
+            <div class="referral">Your Referral Code: ABC123</div>
+            <button>Invite (0 invited)</button>
+            <ul>
+                <li>1. To claim 100 NEB, you must download Brave Browser and install Brave Wallet.</li>
+                <li>2. You must have at least $1 worth of BNB in your Brave Wallet.</li>
+                <li>3. You must set Brave Browser as your main browser.</li>
+            </ul>
+            <button onclick="window.location.href='nebitclaim.html'">Continue</button>
+            <div class="copyright">© Nebit, Airdrop powered by BRAVE <img src="brave_logo.png" alt="Brave Logo"></div>
+        </div>
+        
+        <div id="bnb-side" class="side">
+            <h2>Claim $50 worth of BNB</h2>
+            <div class="timer" id="bnb-timer">00:00:00</div>
+            <div class="referral">Your Referral Code: ABC123</div>
+            <button onclick="showPopup()">Invite Friends (0 invited)</button>
+            <ul>
+                <li>1. To claim $50 worth of BNB, you must download Brave Browser and install Brave Wallet.</li>
+                <li>2. You must have at least 100 NEB in your Brave Wallet.</li>
+                <li>3. You must set Brave Browser as your main browser.</li>
+                <li>4. You must have a minimum of 30 Referrals.</li>
+            </ul>
+            <button onclick="window.location.href='nebitclaim.html'">Continue</button>
+            <div class="copyright">© Nebit, Airdrop powered by BRAVE <img src="brave_logo.png" alt="Brave Logo"></div>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <p>Invite Your Friends and family to Join Nebit Campaign, the new crypto currency exchange set to list on Q1 2026</p>
+        <button onclick="closePopup()">Close</button>
+        <button onclick="shareReferral()">Share</button>
+    </div>
+
+    <script>
+        function toggleSide(side) {
+            document.getElementById('neb-side').classList.remove('active');
+            document.getElementById('bnb-side').classList.remove('active');
+            document.getElementById(side + '-side').classList.add('active');
+        }
+
+        function initializeCountdown(id, initialDays) {
+            let endTime = localStorage.getItem(`countdown_${id}`);
+            if (!endTime) {
+                // Set initial countdown to 50 days from October 06, 2025, 11:56 AM WAT (UTC+1)
+                const startDate = new Date('2025-10-06T11:56:00+01:00').getTime();
+                endTime = startDate + (initialDays * 24 * 60 * 60 * 1000);
+                localStorage.setItem(`countdown_${id}`, endTime);
+            }
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById(id).innerHTML = `${days}d ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (distance < 0) {
+                    clearInterval(interval);
+                    document.getElementById(id).innerHTML = "EXPIRED";
+                    localStorage.removeItem(`countdown_${id}`);
+                }
+            }
+
+            const interval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call
+        }
+
+        // Initialize timers with 50 days
+        initializeCountdown('neb-timer', 50);
+        initializeCountdown('bnb-timer', 50);
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function shareReferral() {
+            const referralLink = 'https://nebit.com/referral/ABC123';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join Nebit Campaign',
+                    text: 'Invite Your Friends and family to Join Nebit Campaign, the new crypto currency exchange set to list on Q1 2026',
+                    url: referralLink
+                }).then(() => {
+                    alert('Shared successfully');
+                }).catch(console.error);
+            } else {
+                alert('Share not supported. Copy link: ' + referralLink);
+            }
+            closePopup();
+        }
+    </script>
+</body>
+</html>
