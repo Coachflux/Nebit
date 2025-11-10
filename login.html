@@ -3,249 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nebit Crypto — Register / Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>USDT Miner — Login & Registration</title>
+<meta property="og:title" content="Join USDT Miner & Earn Free USDT Daily" />
+<meta property="og:description" content="Sign up and start mining USDT. Invite friends to earn more!" />
+<meta property="og:image" content="https://i.ibb.co/kMG4ZjM/usdt-banner.png" />
 <style>
-  body {
-    font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at top, #08121e, #0b182a, #02060b);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-
-  .container {
-    background: #0f1e33;
-    border-radius: 20px;
-    box-shadow: 8px 8px 16px #050a12, -8px -8px 16px #1a355a;
-    width: 90%;
-    max-width: 400px;
-    padding: 25px;
-    text-align: center;
-  }
-
-  h2 {
-    margin-bottom: 10px;
-    color: #00f7ff;
-  }
-
-  .input-group {
-    text-align: left;
-    margin-top: 15px;
-  }
-
-  label {
-    font-size: 14px;
-    color: #b3c9e1;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    margin-top: 5px;
-    background: #0b1624;
-    color: #fff;
-    font-size: 15px;
-  }
-
-  button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #00c3ff, #0072ff);
-    color: #fff;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: linear-gradient(135deg, #0072ff, #00c3ff);
-  }
-
-  .switch {
-    margin-top: 15px;
-    color: #9fc9ff;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  .google-btn {
-    background: #fff;
-    color: #000;
-    margin-top: 15px;
-    font-weight: 600;
-  }
-
-  .sparkle {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
-    pointer-events: none;
-    z-index: 0;
-  }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
+    body{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);height:100vh;display:flex;justify-content:center;align-items:center;color:#fff;}
+    .container{background:#121212a0;backdrop-filter:blur(10px);padding:30px;border-radius:25px;width:350px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}
+    .logo{display:block;margin:0 auto 20px auto;width:80px;}
+    h1{font-size:28px;text-align:center;margin-bottom:10px;color:#00ffe1;text-shadow:0 0 10px #00ffe1;}
+    h4{font-size:14px;text-align:center;margin-bottom:20px;color:#aaa;}
+    input{width:100%;padding:12px 15px;margin:8px 0;border:none;border-radius:10px;background:#1e1e1e;color:#fff;}
+    button{width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(90deg,#00ffe1,#0072ff);color:#fff;font-weight:bold;margin-top:10px;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;}
+    button img{width:20px;margin-right:10px;}
+    button:hover{opacity:0.9;}
+    .toggle-form{text-align:center;margin-top:15px;font-size:14px;cursor:pointer;color:#00ffe1;}
+    .referral{margin-top:10px;font-size:14px;color:#aaa;}
 </style>
 </head>
 <body>
-
-<div class="sparkle"></div>
-
 <div class="container">
-  <h2 id="form-title">Register</h2>
-
-  <div id="register-form">
-    <div class="input-group">
-      <label>Username (Referral Code)</label>
-      <input type="text" id="reg-username" placeholder="Enter username" required>
-    </div>
-    <div class="input-group">
-      <label>Email</label>
-      <input type="email" id="reg-email" placeholder="Enter email" required>
-    </div>
-    <div class="input-group">
-      <label>Password</label>
-      <input type="password" id="reg-password" placeholder="Enter password" required>
-    </div>
-    <div class="input-group">
-      <label>Referral Code (optional)</label>
-      <input type="text" id="reg-referral" placeholder="Referred by username?">
-    </div>
-    <button onclick="register()">Register</button>
-    <button class="google-btn" onclick="googleAuth()">Continue with Google</button>
-    <p class="switch" onclick="toggleForm()">Already have an account? Login</p>
-  </div>
-
-  <div id="login-form" style="display:none;">
-    <div class="input-group">
-      <label>Email</label>
-      <input type="email" id="login-email" placeholder="Enter email">
-    </div>
-    <div class="input-group">
-      <label>Password</label>
-      <input type="password" id="login-password" placeholder="Enter password">
-    </div>
-    <button onclick="login()">Login</button>
-    <button class="google-btn" onclick="googleAuth()">Continue with Google</button>
-    <p class="switch" onclick="toggleForm()">Don’t have an account? Register</p>
-  </div>
+    <img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" alt="Logo" class="logo">
+    <h1 id="form-title">Register</h1>
+    <h4>Invite friends and earn USDT</h4>
+    <input type="text" id="username" placeholder="Username">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="text" id="referralCode" placeholder="Referral Code (Optional)">
+    <button id="submit-btn">Register</button>
+    <button id="google-btn"><img src="https://img.icons8.com/color/48/000000/google-logo.png"/>Continue with Google</button>
+    <div class="toggle-form" id="toggleForm">Already have an account? Login</div>
 </div>
 
-<script type="module">
-  // Import Firebase SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script>
+  // Firebase config
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MSG_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDR_rkTfGLWWX4NRWOVer9wwGlUFiRMRO4",
+    authDomain: "usdt-login.firebaseapp.com",
+    databaseURL: "https://usdt-login-default-rtdb.firebaseio.com",
+    projectId: "usdt-login",
+    storageBucket: "usdt-login.firebasestorage.app",
+    messagingSenderId: "807602854227",
+    appId: "1:807602854227:web:309ae73f572e48dbc7a9a6"
   };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
+  const formTitle = document.getElementById('form-title');
+  const submitBtn = document.getElementById('submit-btn');
+  const toggleForm = document.getElementById('toggleForm');
+  let isRegister = true;
 
-  window.register = async () => {
-    const username = document.getElementById('reg-username').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
-    const password = document.getElementById('reg-password').value;
-    const refcode = document.getElementById('reg-referral').value.trim();
-
-    if (!username || !email || !password) {
-      alert("Please fill all fields!");
-      return;
+  toggleForm.addEventListener('click', () => {
+    isRegister = !isRegister;
+    if(isRegister){
+        formTitle.textContent = "Register";
+        submitBtn.textContent = "Register";
+        toggleForm.textContent = "Already have an account? Login";
+        document.getElementById('referralCode').style.display = "block";
+    } else {
+        formTitle.textContent = "Login";
+        submitBtn.textContent = "Login";
+        toggleForm.textContent = "Don't have an account? Register";
+        document.getElementById('referralCode').style.display = "none";
     }
+  });
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+  submitBtn.addEventListener('click', async ()=>{
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const referral = document.getElementById('referralCode').value.trim();
 
-      await setDoc(doc(db, "users", user.uid), {
-        username,
-        email,
-        referralCode: username,
-        referredBy: refcode || null,
-        referralCount: 0,
-        balance: 0,
-        createdAt: new Date().toISOString()
-      });
-
-      alert("Registration successful!");
-      window.location.href = "login.html";
-    } catch (error) {
-      alert(error.message);
+    if(isRegister){
+        if(!username || !email || !password){alert("Fill all fields"); return;}
+        try{
+            const userCredential = await auth.createUserWithEmailAndPassword(email,password);
+            const uid = userCredential.user.uid;
+            await db.collection("users").doc(uid).set({
+                username,
+                email,
+                referralCode: referral || null,
+                referralCount: 0
+            });
+            alert("Registration successful! Please login.");
+            isRegister=false;
+            toggleForm.click();
+        }catch(e){alert(e.message);}
+    } else {
+        try{
+            await auth.signInWithEmailAndPassword(email,password);
+            const uid = auth.currentUser.uid;
+            const doc = await db.collection("users").doc(uid).get();
+            localStorage.setItem("username", doc.data().username);
+            localStorage.setItem("uid", uid);
+            window.location.href = "referral.html";
+        }catch(e){alert(e.message);}
     }
-  };
+  });
 
-  window.login = async () => {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "referral-dashboard.html";
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  window.googleAuth = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
+  const googleBtn = document.getElementById('google-btn');
+  googleBtn.addEventListener('click', async ()=>{
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try{
+      const result = await auth.signInWithPopup(provider);
       const user = result.user;
-
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          username: user.displayName || "User",
+      const doc = await db.collection("users").doc(user.uid).get();
+      if(!doc.exists){
+        await db.collection("users").doc(user.uid).set({
+          username: user.displayName,
           email: user.email,
-          referralCode: (user.displayName || "User") + Math.floor(Math.random() * 1000),
-          referredBy: null,
-          referralCount: 0,
-          balance: 0,
-          createdAt: new Date().toISOString()
+          referralCode: null,
+          referralCount:0
         });
       }
-      window.location.href = "referral-dashboard.html";
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+      localStorage.setItem("username", user.displayName);
+      localStorage.setItem("uid", user.uid);
+      window.location.href = "referral.html";
+    }catch(e){alert(e.message);}
+  });
 </script>
-
-<script>
-function toggleForm() {
-  const reg = document.getElementById('register-form');
-  const log = document.getElementById('login-form');
-  const title = document.getElementById('form-title');
-
-  if (reg.style.display === "none") {
-    reg.style.display = "block";
-    log.style.display = "none";
-    title.textContent = "Register";
-  } else {
-    reg.style.display = "none";
-    log.style.display = "block";
-    title.textContent = "Login";
-  }
-}
-</script>
-
 </body>
 </html>
