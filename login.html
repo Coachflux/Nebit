@@ -1,38 +1,43 @@
-<!DOCTYPE html>
+<!-- login.html -->
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Login — USDT Miner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;background:linear-gradient(135deg,#061021,#10203a);font-family:Inter,Arial;color:#e6f7ff;display:flex;align-items:center;justify-content:center;height:100vh}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0.06));padding:28px;border-radius:16px;max-width:420px;width:92%;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
-  h1{margin:0 0 8px;color:#9ff6ff;text-align:center}
-  input{width:100%;padding:11px;border-radius:10px;border:none;margin-top:6px;background:#071827;color:#e6f7ff}
-  .btn{margin-top:14px;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b5cff);color:#021427;font-weight:800;cursor:pointer;width:100%}
-  .google{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px;border-radius:10px;background:#fff;color:#000;margin-top:10px;cursor:pointer}
-  .note{color:#7fa9bf;font-size:13px;text-align:center;margin-top:12px}
+  :root{--bg:#071426;--accent1:#00e0ff;--accent2:#7b5cff;--muted:#9fbfd4}
+  *{box-sizing:border-box;font-family:Inter,system-ui}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),#041427);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#e9fbff;padding:20px}
+  .card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));padding:26px;border-radius:14px;box-shadow:0 18px 50px rgba(2,12,30,0.6)}
+  h1{margin:0 0 8px;color:#bff8ff;text-align:center}
+  input{width:100%;padding:12px;border-radius:10px;border:none;margin-top:8px;background:#071827;color:#eafcff}
+  .btn{margin-top:14px;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021427;font-weight:800;cursor:pointer;width:100%}
+  .google{display:flex;align-items:center;gap:12px;justify-content:center;background:#fff;color:#000;border-radius:12px;padding:10px;cursor:pointer;margin-top:10px}
+  .msg{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+  .error{background:#3f1a1a;padding:10px;border-radius:8px;color:#ffd7d7;margin-top:12px;display:none}
 </style>
 </head>
 <body>
   <div class="card">
     <h1>Login</h1>
     <input id="email" type="email" placeholder="you@example.com">
-    <input id="password" type="password" placeholder="Password">
+    <input id="password" type="password" placeholder="Your password">
     <button id="loginBtn" class="btn">Login</button>
 
-    <div id="googleBtn" class="google">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google"> Continue with Google
+    <div id="googleBtn" class="google" role="button" tabindex="0">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="G"> Continue with Google
     </div>
 
-    <div style="text-align:center;margin-top:12px"><a href="register.html" style="color:#9ff6ff;text-decoration:none">Need an account? Register</a></div>
+    <div class="msg">Don't have an account? <a href="register.html" style="color:#bff8ff">Register</a></div>
+    <div id="errorBox" class="error"></div>
   </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script>
-  const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBqdPdqxg-ETwxu7CZp68myh2kW4hD_aO8",
   authDomain: "nebit-drop.firebaseapp.com",
   databaseURL: "https://nebit-drop-default-rtdb.firebaseio.com",
@@ -41,51 +46,74 @@
   messagingSenderId: "316280534789",
   appId: "1:316280534789:web:9903fdb98b5cb4ff60a96c"
 };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  document.getElementById('loginBtn').addEventListener('click', async ()=>{
-    const email = (document.getElementById('email').value || '').trim();
-    const password = document.getElementById('password').value;
-    if(!email || !password) { alert('Enter email and password'); return; }
-    try{
-      const cred = await auth.signInWithEmailAndPassword(email,password);
-      const uid = cred.user.uid;
-      const udoc = await db.collection('users').doc(uid).get();
-      if(udoc.exists){
-        // store local for referral page convenience
-        localStorage.setItem('uid', uid);
-        localStorage.setItem('username', udoc.data().username || '');
-      }
-      window.location.href = 'referral.html';
-    }catch(err){ alert(err.message || 'Login failed'); }
-  });
+const $ = id => document.getElementById(id);
+const showError = (msg) => { const e = $('errorBox'); e.style.display='block'; e.textContent = msg; setTimeout(()=>e.style.display='none',6000); };
 
-  document.getElementById('googleBtn').addEventListener('click', async ()=>{
-    const provider = new firebase.auth.GoogleAuthProvider();
-    try{
-      const result = await auth.signInWithPopup(provider);
-      const user = result.user;
-      // ensure user doc exists (it may have been created at register)
-      const uref = db.collection('users').doc(user.uid);
-      const snap = await uref.get();
-      if(!snap.exists){
-        // write minimal user doc
-        await uref.set({
-          username: (user.displayName||user.email||'user').replace(/\s+/g,'').toLowerCase(),
-          email: user.email || '',
-          referralCode: (user.displayName||user.email||'user').split('@')[0],
-          referredBy: null,
-          referralCount: 0,
-          createdAt: new Date().toISOString()
-        });
+$('loginBtn').addEventListener('click', async ()=>{
+  const email = $('email').value.trim();
+  const password = $('password').value;
+  if(!email || !password){ showError('Enter email & password'); return; }
+  try{
+    const cred = await auth.signInWithEmailAndPassword(email, password);
+    const uid = cred.user.uid;
+    // fetch user doc and stash local info for referral.html
+    const snap = await db.collection('users').doc(uid).get();
+    if(snap.exists){
+      localStorage.setItem('uid', uid);
+      localStorage.setItem('username', snap.data().username || '');
+    }
+    window.location.href = 'referral.html';
+  } catch(err){
+    if(err.code === 'auth/wrong-password'){ showError('Incorrect password'); return; }
+    if(err.code === 'auth/user-not-found'){ showError('No account found with this email'); return; }
+    if(err.code === 'auth/invalid-email'){ showError('Invalid email address'); return; }
+    showError(err.message || 'Login failed');
+  }
+});
+
+/* Google login */
+$('googleBtn').addEventListener('click', async ()=>{
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try{
+    const res = await auth.signInWithPopup(provider);
+    const user = res.user;
+    const uref = db.collection('users').doc(user.uid);
+    const snap = await uref.get();
+    if(!snap.exists){
+      // create doc if missing
+      let base = (user.displayName||'user').toLowerCase().replace(/\s+/g,'').replace(/[^\w\-]/g,'') || 'user';
+      let candidate = base;
+      for(let i=0;i<6;i++){
+        const q = await db.collection('users').where('username','==',candidate).limit(1).get();
+        if(q.empty) break;
+        candidate = base + Math.floor(Math.random()*9000+100);
       }
-      localStorage.setItem('uid', user.uid);
-      localStorage.setItem('username', snap.exists ? snap.data().username : ((user.displayName||user.email||'user').replace(/\s+/g,'').toLowerCase()));
-      window.location.href = 'referral.html';
-    }catch(err){ alert(err.message || 'Google login failed'); }
-  });
+      await uref.set({
+        username: candidate,
+        email: user.email || '',
+        referralCode: candidate,
+        referredBy: null,
+        referralCount: 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      localStorage.setItem('username', candidate);
+    } else {
+      localStorage.setItem('username', snap.data().username || '');
+    }
+    localStorage.setItem('uid', user.uid);
+    window.location.href = 'referral.html';
+  } catch(err){
+    if(err.code === 'auth/account-exists-with-different-credential' || err.code === 'auth/email-already-in-use'){
+      showError('That email is already registered. Try logging in instead.');
+      return;
+    }
+    showError(err.message || 'Google sign-in failed');
+  }
+});
 </script>
 </body>
 </html>
