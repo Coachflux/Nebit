@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USDT Miner — Referral Dashboard</title>
+<meta property="og:title" content="Join USDT Miner & Earn Free USDT Daily" />
+<meta property="og:description" content="Invite friends and earn USDT!" />
+<meta property="og:image" content="https://i.ibb.co/kMG4ZjM/usdt-banner.png" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
+body{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;display:flex;justify-content:center;align-items:flex-start;padding-top:30px;}
+.container{background:#121212a0;backdrop-filter:blur(10px);padding:30px;border-radius:25px;width:380px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}
+.logo{display:block;margin:0 auto 15px auto;width:80px;}
+h1{text-align:center;color:#00ffe1;margin-bottom:5px;text-shadow:0 0 10px #00ffe1;}
+h4{text-align:center;color:#aaa;margin-bottom:20px;font-weight:400;}
+.box3d{background:#1e1e1e;border-radius:20px;perspective:1000px;margin-bottom:20px;position:relative;height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 0.8s;}
+.box3d.flip{transform:rotateY(180deg);}
+.box3d-content{position:absolute;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;}
+.box3d-content.back{transform:rotateY(180deg);}
+.buttons{display:flex;margin-top:10px;}
+.buttons button{flex:1;margin:0 5px;padding:10px;border:none;border-radius:15px;background:linear-gradient(90deg,#00ffe1,#0072ff);cursor:pointer;color:#fff;font-weight:bold;transition:0.3s;}
+.buttons button.active{box-shadow:0 0 15px #00ffe1;}
+.timer{background:#1e1e1e;padding:15px;border-radius:15px;text-align:center;margin-bottom:20px;}
+.referral-section{background:#1e1e1e;padding:15px;border-radius:15px;margin-bottom:20px;}
+.referral-section div{margin-bottom:10px;}
+.referral-section button{width:100%;padding:10px;border:none;border-radius:12px;background:linear-gradient(90deg,#00ffe1,#0072ff);color:#fff;font-weight:bold;cursor:pointer;}
+.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;display:none;}
+.popup-content{background:#1e1e1e;padding:20px;border-radius:20px;text-align:center;max-width:300px;}
+.close-btn{background:#0072ff;padding:8px 15px;margin-top:15px;border:none;border-radius:10px;color:#fff;cursor:pointer;}
+.instructions{background:#1e1e1e;padding:15px;border-radius:15px;margin-bottom:20px;}
+.instructions a{color:#00ffe1;text-decoration:underline;}
+.footer{text-align:center;margin-top:10px;color:#aaa;font-size:12px;}
+</style>
+</head>
+<body>
+<div class="container">
+<img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" class="logo">
+<h1>USDT Miner</h1>
+<h4>Invite friends and earn 0.3 USDT per one friend invited</h4>
+
+<div class="box3d" id="flipBox">
+    <div class="box3d-content front">
+        <img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" width="60">
+        <h4>Claim Rewards</h4>
+        <div class="buttons">
+            <button id="leftBtn" class="active">Claim 100 NEB</button>
+            <button id="rightBtn">Claim $50 BNB</button>
+        </div>
+    </div>
+    <div class="box3d-content back">
+        <img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" width="60">
+        <h4>Claim Rewards</h4>
+        <div class="buttons">
+            <button id="leftBtnBack" class="active">Claim 100 NEB</button>
+            <button id="rightBtnBack">Claim $50 BNB</button>
+        </div>
+    </div>
+</div>
+
+<div class="timer" id="countdown">Countdown: 00:00:00</div>
+
+<div class="referral-section">
+    <div>Referral Code: <span id="userReferral"></span></div>
+    <div>People Invited: <span id="referralCount">0</span></div>
+    <button id="inviteBtn">Invite</button>
+</div>
+
+<div class="instructions">
+    <div>1. Download Brave Browser <a href="#" id="braveLink">Here</a></div>
+    <div>2. Set Brave Browser as your main Browser.</div>
+    <div>3. You must have at least $1 worth of BNB in your Brave Wallet.</div>
+    <div>4. Invite five(5) friends to earn $10 worth of BNB in your Brave Wallet after countdown (Optional)</div>
+</div>
+
+<button id="continueBtn">Continue</button>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <div id="popupText"></div>
+        <button class="close-btn" id="closePopup">Close</button>
+    </div>
+</div>
+
+<div class="footer">©Nebit Campaign, 2025. Powered by BRAVE.</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDR_rkTfGLWWX4NRWOVer9wwGlUFiRMRO4",
+    authDomain: "usdt-login.firebaseapp.com",
+    databaseURL: "https://usdt-login-default-rtdb.firebaseio.com",
+    projectId: "usdt-login",
+    storageBucket: "usdt-login.firebasestorage.app",
+    messagingSenderId: "807602854227",
+    appId: "1:807602854227:web:309ae73f572e48dbc7a9a6"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const username = localStorage.getItem("username");
+const uid = localStorage.getItem("uid");
+document.getElementById("userReferral").textContent = username;
+
+async function loadReferralCount(){
+    const doc = await db.collection("users").doc(uid).get();
+    if(doc.exists){
+        document.getElementById("referralCount").textContent = doc.data().referralCount || 0;
+    }
+}
+loadReferralCount();
+
+// Flip box
+const flipBox = document.getElementById('flipBox');
+document.getElementById('leftBtn').addEventListener('click', ()=>{flipBox.classList.remove('flip'); document.getElementById('leftBtn').classList.add('active'); document.getElementById('rightBtn').classList.remove('active');});
+document.getElementById('rightBtn').addEventListener('click', ()=>{flipBox.classList.add('flip'); document.getElementById('rightBtnBack').classList.add('active'); document.getElementById('leftBtnBack').classList.remove('active');});
+
+// Countdown Timer
+let countdownSeconds = 86400;
+setInterval(()=>{
+    let hours = Math.floor(countdownSeconds/3600);
+    let minutes = Math.floor((countdownSeconds%3600)/60);
+    let seconds = countdownSeconds%60;
+    document.getElementById('countdown').textContent = `Countdown: ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    if(countdownSeconds>0) countdownSeconds--;
+},1000);
+
+// Popup Invite
+const popup = document.getElementById('popup');
+const popupText = document.getElementById('popupText');
+document.getElementById('inviteBtn').addEventListener('click', ()=>{
+    popupText.innerHTML = `Share your referral link: <br> https://usdtmining.github.io/USDT/index.html?ref=${username} <br> Code: ${username}`;
+    popup.style.display='flex';
+});
+document.getElementById('closePopup').addEventListener('click', ()=>{popup.style.display='none';});
+
+// Brave link popup
+document.getElementById('braveLink').addEventListener('click', (e)=>{
+    e.preventDefault();
+    popupText.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Brave_logo.png" width="100"><br>Download Brave Browser for Android or Play Store.`;
+    popup.style.display='flex';
+});
+
+// Continue button redirect
+document.getElementById('continueBtn').addEventListener('click', ()=>{
+    alert("Continue to next step...");
+});
+</script>
+</body>
+</html>
