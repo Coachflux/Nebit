@@ -1,47 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USDT Miner — Login & Registration</title>
-<meta property="og:title" content="Join USDT Miner & Earn Free USDT Daily" />
-<meta property="og:description" content="Sign up and start mining USDT. Invite friends to earn more!" />
-<meta property="og:image" content="https://i.ibb.co/kMG4ZjM/usdt-banner.png" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Login — USDT Miner</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
-    body{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);height:100vh;display:flex;justify-content:center;align-items:center;color:#fff;}
-    .container{background:#121212a0;backdrop-filter:blur(10px);padding:30px;border-radius:25px;width:350px;box-shadow:0 10px 25px rgba(0,0,0,0.5);}
-    .logo{display:block;margin:0 auto 20px auto;width:80px;}
-    h1{font-size:28px;text-align:center;margin-bottom:10px;color:#00ffe1;text-shadow:0 0 10px #00ffe1;}
-    h4{font-size:14px;text-align:center;margin-bottom:20px;color:#aaa;}
-    input{width:100%;padding:12px 15px;margin:8px 0;border:none;border-radius:10px;background:#1e1e1e;color:#fff;}
-    button{width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(90deg,#00ffe1,#0072ff);color:#fff;font-weight:bold;margin-top:10px;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;}
-    button img{width:20px;margin-right:10px;}
-    button:hover{opacity:0.9;}
-    .toggle-form{text-align:center;margin-top:15px;font-size:14px;cursor:pointer;color:#00ffe1;}
-    .referral{margin-top:10px;font-size:14px;color:#aaa;}
+  body{margin:0;background:linear-gradient(135deg,#061021,#10203a);font-family:Inter,Arial;color:#e6f7ff;display:flex;align-items:center;justify-content:center;height:100vh}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0.06));padding:28px;border-radius:16px;max-width:420px;width:92%;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
+  h1{margin:0 0 8px;color:#9ff6ff;text-align:center}
+  input{width:100%;padding:11px;border-radius:10px;border:none;margin-top:6px;background:#071827;color:#e6f7ff}
+  .btn{margin-top:14px;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b5cff);color:#021427;font-weight:800;cursor:pointer;width:100%}
+  .google{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px;border-radius:10px;background:#fff;color:#000;margin-top:10px;cursor:pointer}
+  .note{color:#7fa9bf;font-size:13px;text-align:center;margin-top:12px}
 </style>
 </head>
 <body>
-<div class="container">
-    <img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" alt="Logo" class="logo">
-    <h1 id="form-title">Register</h1>
-    <h4>Invite friends and earn USDT</h4>
-    <input type="text" id="username" placeholder="Username">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <input type="text" id="referralCode" placeholder="Referral Code (Optional)">
-    <button id="submit-btn">Register</button>
-    <button id="google-btn"><img src="https://img.icons8.com/color/48/000000/google-logo.png"/>Continue with Google</button>
-    <div class="toggle-form" id="toggleForm">Already have an account? Login</div>
-</div>
+  <div class="card">
+    <h1>Login</h1>
+    <input id="email" type="email" placeholder="you@example.com">
+    <input id="password" type="password" placeholder="Password">
+    <button id="loginBtn" class="btn">Login</button>
+
+    <div id="googleBtn" class="google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google"> Continue with Google
+    </div>
+
+    <div style="text-align:center;margin-top:12px"><a href="register.html" style="color:#9ff6ff;text-decoration:none">Need an account? Register</a></div>
+  </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script>
-  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyDR_rkTfGLWWX4NRWOVer9wwGlUFiRMRO4",
     authDomain: "usdt-login.firebaseapp.com",
@@ -55,78 +45,46 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  const formTitle = document.getElementById('form-title');
-  const submitBtn = document.getElementById('submit-btn');
-  const toggleForm = document.getElementById('toggleForm');
-  let isRegister = true;
-
-  toggleForm.addEventListener('click', () => {
-    isRegister = !isRegister;
-    if(isRegister){
-        formTitle.textContent = "Register";
-        submitBtn.textContent = "Register";
-        toggleForm.textContent = "Already have an account? Login";
-        document.getElementById('referralCode').style.display = "block";
-    } else {
-        formTitle.textContent = "Login";
-        submitBtn.textContent = "Login";
-        toggleForm.textContent = "Don't have an account? Register";
-        document.getElementById('referralCode').style.display = "none";
-    }
-  });
-
-  submitBtn.addEventListener('click', async ()=>{
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
+  document.getElementById('loginBtn').addEventListener('click', async ()=>{
+    const email = (document.getElementById('email').value || '').trim();
     const password = document.getElementById('password').value;
-    const referral = document.getElementById('referralCode').value.trim();
-
-    if(isRegister){
-        if(!username || !email || !password){alert("Fill all fields"); return;}
-        try{
-            const userCredential = await auth.createUserWithEmailAndPassword(email,password);
-            const uid = userCredential.user.uid;
-            await db.collection("users").doc(uid).set({
-                username,
-                email,
-                referralCode: referral || null,
-                referralCount: 0
-            });
-            alert("Registration successful! Please login.");
-            isRegister=false;
-            toggleForm.click();
-        }catch(e){alert(e.message);}
-    } else {
-        try{
-            await auth.signInWithEmailAndPassword(email,password);
-            const uid = auth.currentUser.uid;
-            const doc = await db.collection("users").doc(uid).get();
-            localStorage.setItem("username", doc.data().username);
-            localStorage.setItem("uid", uid);
-            window.location.href = "referral.html";
-        }catch(e){alert(e.message);}
-    }
+    if(!email || !password) { alert('Enter email and password'); return; }
+    try{
+      const cred = await auth.signInWithEmailAndPassword(email,password);
+      const uid = cred.user.uid;
+      const udoc = await db.collection('users').doc(uid).get();
+      if(udoc.exists){
+        // store local for referral page convenience
+        localStorage.setItem('uid', uid);
+        localStorage.setItem('username', udoc.data().username || '');
+      }
+      window.location.href = 'referral.html';
+    }catch(err){ alert(err.message || 'Login failed'); }
   });
 
-  const googleBtn = document.getElementById('google-btn');
-  googleBtn.addEventListener('click', async ()=>{
+  document.getElementById('googleBtn').addEventListener('click', async ()=>{
     const provider = new firebase.auth.GoogleAuthProvider();
     try{
       const result = await auth.signInWithPopup(provider);
       const user = result.user;
-      const doc = await db.collection("users").doc(user.uid).get();
-      if(!doc.exists){
-        await db.collection("users").doc(user.uid).set({
-          username: user.displayName,
-          email: user.email,
-          referralCode: null,
-          referralCount:0
+      // ensure user doc exists (it may have been created at register)
+      const uref = db.collection('users').doc(user.uid);
+      const snap = await uref.get();
+      if(!snap.exists){
+        // write minimal user doc
+        await uref.set({
+          username: (user.displayName||user.email||'user').replace(/\s+/g,'').toLowerCase(),
+          email: user.email || '',
+          referralCode: (user.displayName||user.email||'user').split('@')[0],
+          referredBy: null,
+          referralCount: 0,
+          createdAt: new Date().toISOString()
         });
       }
-      localStorage.setItem("username", user.displayName);
-      localStorage.setItem("uid", user.uid);
-      window.location.href = "referral.html";
-    }catch(e){alert(e.message);}
+      localStorage.setItem('uid', user.uid);
+      localStorage.setItem('username', snap.exists ? snap.data().username : ((user.displayName||user.email||'user').replace(/\s+/g,'').toLowerCase()));
+      window.location.href = 'referral.html';
+    }catch(err){ alert(err.message || 'Google login failed'); }
   });
 </script>
 </body>
