@@ -1,52 +1,58 @@
-<!DOCTYPE html>
+<!-- referral.html -->
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Referral Dashboard — USDT Miner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;background:linear-gradient(135deg,#061021,#10203a);font-family:Inter,Arial;color:#e6f7ff}
-  .wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));padding:26px;border-radius:18px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
-  h1{text-align:center;color:#9ff6ff}
-  .small{color:#9fbfd4}
-  .box3d{height:180px;background:#0f2434;border-radius:14px;margin-top:12px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+  :root{--bg:#051426;--card:#08273e;--accent1:#00e0ff;--accent2:#7b5cff;--muted:#9fbfd4}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),#021425);font-family:Inter;color:#e9fbff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{width:100%;max-width:520px;background:linear-gradient(180deg,#071a2b,#0b2740);padding:24px;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,0.6)}
+  h1{margin:0;color:#bff8ff;text-align:center}
+  .hero{margin-top:12px;border-radius:12px;overflow:hidden;height:200px;background:#071827;display:flex;align-items:center;justify-content:center}
   .row{display:flex;gap:10px;margin-top:12px}
-  .btn{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,#00d4ff,#7b5cff);color:#021427;font-weight:800;cursor:pointer}
-  .timer{background:#071827;padding:12px;border-radius:10px;margin-top:12px;text-align:center}
-  .refbox{background:#071827;padding:12px;border-radius:10px;margin-top:12px;color:#9fbfd4}
-  .invite{margin-top:12px;padding:12px;border-radius:10px;border:none;background:linear-gradient(90deg,#00d4ff,#7b5cff);color:#021427;font-weight:800;cursor:pointer;width:100%}
-  .footer{margin-top:10px;text-align:center;color:#9fbfd4;font-size:13px}
+  .btn{flex:1;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021427;font-weight:800;cursor:pointer}
+  .info{margin-top:12px;background:linear-gradient(180deg,#0b1624,#072033);padding:14px;border-radius:10px}
+  .info div{margin-bottom:8px}
+  .invite{margin-top:12px;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021427;font-weight:800;cursor:pointer;width:100%}
+  .small{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+  .footer{margin-top:12px;text-align:center;color:var(--muted)}
+  .popup{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center}
+  .modal{background:#071827;padding:18px;border-radius:12px;color:#e9fbff;max-width:420px;width:92%}
+  .modal button{margin-top:12px;padding:10px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:700}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>USDT Miner</h1>
-      <p class="small">Invite friends and earn 0.3 USDT each</p>
+  <div class="card">
+    <h1>USDT Miner — Referral</h1>
+    <div class="hero">
+      <video src="https://cdn.pixabay.com/video/2022/03/06/21-24-23-592_720.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"></video>
+    </div>
 
-      <div class="box3d" id="box3d">
-        <img src="https://i.ibb.co/kMG4ZjM/usdt-banner.png" width="72" alt="">
-        <div style="height:10px"></div>
-        <div id="rewardLabel" style="font-weight:800">Claim 100 NEB</div>
-      </div>
+    <div class="row">
+      <button id="leftBtn" class="btn">Claim 100NEB</button>
+      <button id="rightBtn" class="btn">Claim $50 BNB</button>
+    </div>
 
-      <div class="row">
-        <button id="left" class="btn">Claim 100NEB</button>
-        <button id="right" class="btn">Claim $50 BNB</button>
-      </div>
+    <div class="info">
+      <div>Username: <strong id="usernameSpan">-</strong></div>
+      <div>Referral Code: <strong id="codeSpan">-</strong></div>
+      <div>People Invited: <strong id="countSpan">0</strong></div>
+    </div>
 
-      <div class="timer" id="countdown">00:00:00</div>
+    <button id="inviteBtn" class="invite">Invite — Share Link</button>
+    <button id="simulateBtn" style="margin-top:10px;padding:10px;border-radius:8px;background:#0b1624;border:none;color:#9fbfd4;cursor:pointer;width:100%">Simulate Invite (dev)</button>
 
-      <div class="refbox">
-        <div>Username: <strong id="usernameDisplay">-</strong></div>
-        <div style="margin-top:6px">Referral Code: <strong id="refCode">-</strong></div>
-        <div style="margin-top:6px">Referred People: <strong id="refCount">0</strong></div>
-      </div>
+    <div class="small">Share link will point to: <br><code id="shareExample" style="color:#9ff6ff"></code></div>
+    <div class="footer">© Nebit Campaign, 2025. Powered by BRAVE.</div>
+  </div>
 
-      <button id="inviteBtn" class="invite">Invite — Share Link</button>
-
-      <div class="footer">© Nebit Campaign, 2025. Powered by BRAVE.</div>
+  <!-- modal -->
+  <div id="popup" class="popup">
+    <div class="modal">
+      <div id="popupText">Share this link</div>
+      <button id="popupClose">Close</button>
     </div>
   </div>
 
@@ -63,52 +69,76 @@ const firebaseConfig = {
   messagingSenderId: "316280534789",
   appId: "1:316280534789:web:9903fdb98b5cb4ff60a96c"
 };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  // require logged-in user
-  auth.onAuthStateChanged(async (user) => {
-    if(!user) { window.location.href = 'login.html'; return; }
-    const uid = user.uid;
-    const doc = await db.collection('users').doc(uid).get();
-    if(!doc.exists){ alert('User data not found'); return; }
-    const data = doc.data();
-    document.getElementById('usernameDisplay').textContent = data.username || data.email || '-';
-    document.getElementById('refCode').textContent = data.referralCode || data.username || '-';
-    document.getElementById('refCount').textContent = data.referralCount || 0;
-  });
+const usernameSpan = document.getElementById('usernameSpan');
+const codeSpan = document.getElementById('codeSpan');
+const countSpan = document.getElementById('countSpan');
+const shareExample = document.getElementById('shareExample');
+const popup = document.getElementById('popup');
+const popupText = document.getElementById('popupText');
 
-  // simple flip-like UI when selecting reward
-  document.getElementById('left').addEventListener('click', ()=>{ document.getElementById('rewardLabel').textContent = 'Claim 100 NEB'; });
-  document.getElementById('right').addEventListener('click', ()=>{ document.getElementById('rewardLabel').textContent = 'Claim $50 BNB'; });
+let currentUser = null;
+auth.onAuthStateChanged(async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  currentUser = user;
+  const doc = await db.collection('users').doc(user.uid).get();
+  if(!doc.exists){ alert('No user data — contact support'); return; }
+  const d = doc.data();
+  usernameSpan.textContent = d.username || d.email || '-';
+  codeSpan.textContent = d.referralCode || d.username || '-';
+  countSpan.textContent = d.referralCount || 0;
+  const link = `https://usdtmining.github.io/USDT/index.html?ref=${encodeURIComponent(d.referralCode || d.username)}`;
+  shareExample.textContent = link;
+});
 
-  // Countdown (demo)
-  let seconds = 60*60*24;
-  setInterval(()=>{
-    if(seconds>0) seconds--;
-    const h = String(Math.floor(seconds/3600)).padStart(2,'0');
-    const m = String(Math.floor((seconds%3600)/60)).padStart(2,'0');
-    const s = String(seconds%60).padStart(2,'0');
-    document.getElementById('countdown').textContent = `${h}:${m}:${s}`;
-  },1000);
+/* share */
+document.getElementById('inviteBtn').addEventListener('click', async ()=>{
+  if(!currentUser) return window.location.href='login.html';
+  const doc = await db.collection('users').doc(currentUser.uid).get();
+  const d = doc.data();
+  const link = `https://usdtmining.github.io/USDT/index.html?ref=${encodeURIComponent(d.referralCode || d.username)}`;
+  const text = `Join USDT Miner with code ${d.referralCode || d.username}\n${link}`;
+  if(navigator.share){
+    navigator.share({title:'Join USDT Miner',text, url:link}).catch(()=>{});
+  } else {
+    // show modal with copy button
+    popupText.textContent = text;
+    popup.style.display='flex';
+    navigator.clipboard.writeText(text).catch(()=>{});
+  }
+});
+document.getElementById('popupClose').addEventListener('click', ()=> popup.style.display='none');
 
-  // Invite button: shows share with OG-friendly URL via server redirect if available
-  document.getElementById('inviteBtn').addEventListener('click', async ()=>{
-    const user = auth.currentUser;
-    if(!user){ alert('Please login'); return; }
-    const doc = await db.collection('users').doc(user.uid).get();
-    const code = doc.data().referralCode || doc.data().username;
-    const shareUrl = `https://usdtmining.github.io/USDT/index.html?ref=${encodeURIComponent(code)}`;
-    const shareText = `Join USDT Miner with my code ${code}\n${shareUrl}`;
+/* simulate invite -> creates referralEvents doc (server function should pick it and increment the referrer's referralCount) */
+document.getElementById('simulateBtn').addEventListener('click', async ()=>{
+  if(!currentUser) return window.location.href='login.html';
+  const doc = await db.collection('users').doc(currentUser.uid).get();
+  const code = doc.exists ? (doc.data().referralCode || doc.data().username) : null;
+  if(!code) return alert('No referral code found');
+  try{
+    await db.collection('referralEvents').add({
+      referralCode: code,
+      newUid: 'sim-' + Date.now(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert('Simulated referral event created. Cloud Function should credit your account shortly.');
+  } catch(err){
+    alert(err.message || 'Failed to create event');
+  }
+});
 
-    if(navigator.share){
-      navigator.share({title:'Join USDT Miner', text: shareText, url: shareUrl}).catch(()=>{});
-    } else {
-      await navigator.clipboard.writeText(shareText);
-      alert('Link copied to clipboard. Share it on social apps.');
-    }
-  });
+/* reward buttons UI */
+document.getElementById('leftBtn').addEventListener('click', ()=> {
+  document.getElementById('leftBtn').style.boxShadow='0 8px 30px rgba(0,224,255,0.12)';
+  document.getElementById('rightBtn').style.boxShadow='none';
+});
+document.getElementById('rightBtn').addEventListener('click', ()=> {
+  document.getElementById('rightBtn').style.boxShadow='0 8px 30px rgba(123,92,255,0.12)';
+  document.getElementById('leftBtn').style.boxShadow='none';
+});
 </script>
 </body>
 </html>
