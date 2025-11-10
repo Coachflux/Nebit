@@ -1,57 +1,67 @@
-<!DOCTYPE html>
+<!-- register.html -->
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Register — USDT Miner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Simple attractive crypto style */
-  body{margin:0;background:linear-gradient(135deg,#061021,#10203a);font-family:Inter,Arial;color:#e6f7ff;display:flex;align-items:center;justify-content:center;height:100vh}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0.06));padding:28px;border-radius:16px;max-width:420px;width:92%;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
-  h1{margin:0 0 8px;color:#9ff6ff;text-align:center}
-  p.lead{color:#9fbfd4;text-align:center;margin:0 0 18px}
-  label{display:block;margin-top:10px;color:#bcdbe6;font-size:13px}
-  input{width:100%;padding:11px;border-radius:10px;border:none;margin-top:6px;background:#071827;color:#e6f7ff}
-  .btn{margin-top:14px;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b5cff);color:#021427;font-weight:800;cursor:pointer;width:100%}
-  .google{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px;border-radius:10px;background:#fff;color:#000;margin-top:10px;cursor:pointer}
-  .note{color:#7fa9bf;font-size:13px;text-align:center;margin-top:12px}
-  .small{font-size:12px;color:#9fbfd4;margin-top:8px}
+  :root{--bg:#071426;--card:#0f2940;--accent1:#00e0ff;--accent2:#7b5cff;--muted:#9fbfd4}
+  *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),#041427);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#e9fbff}
+  .card{width:100%;max-width:460px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));padding:26px;border-radius:14px;box-shadow:0 18px 50px rgba(2,12,30,0.6)}
+  h1{margin:0 0 6px;color:#bff8ff;text-align:center}
+  p.lead{margin:0 0 18px;text-align:center;color:var(--muted)}
+  label{display:block;margin-top:12px;color:var(--muted);font-size:13px}
+  input{width:100%;padding:12px;border-radius:10px;border:none;margin-top:8px;background:#071827;color:#eafcff}
+  .row{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;padding:12px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+  .primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021427}
+  .google{display:flex;align-items:center;gap:12px;justify-content:center;background:#fff;color:#000;border-radius:12px;padding:10px;cursor:pointer;margin-top:10px}
+  .note{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+  .small{font-size:12px;color:#a9c6d6;margin-top:8px;text-align:center}
+  .error{background:#3f1a1a;padding:10px;border-radius:8px;color:#ffd7d7;margin-top:12px;display:none}
 </style>
 </head>
 <body>
-  <div class="card">
+  <div class="card" role="main">
     <h1>USDT Miner</h1>
-    <p class="lead">Register to start inviting and earning</p>
+    <p class="lead">Register — get your referral code (username)</p>
 
-    <label>Username (this will be your referral code)</label>
+    <label for="username">Username (this will be your referral code)</label>
     <input id="username" placeholder="choose-a-username">
 
-    <label>Email</label>
+    <label for="email">Email</label>
     <input id="email" type="email" placeholder="you@example.com">
 
-    <label>Password</label>
-    <input id="password" type="password" placeholder="Create a password">
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Create a secure password">
 
-    <label>Referred by (optional)</label>
-    <input id="referredBy" placeholder="friend-username">
+    <label for="referredBy">Referred by (optional)</label>
+    <input id="referredBy" placeholder="friend-username or left blank">
 
-    <button id="registerBtn" class="btn">Create account</button>
-
-    <div id="googleBtn" class="google">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google"> Continue with Google
+    <div class="row">
+      <button id="registerBtn" class="btn primary">Create account</button>
     </div>
 
-    <div class="note">After registration you'll be redirected to login.</div>
-    <div style="text-align:center;margin-top:12px"><a href="login.html" style="color:#9ff6ff;text-decoration:none">Already registered? Login</a></div>
-    <div class="small">Referral link format: https://usdtmining.github.io/USDT/index.html?ref=username</div>
+    <div id="googleBtn" class="google" role="button" tabindex="0" title="Continue with Google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="G">
+      Continue with Google
+    </div>
+
+    <div class="note">After successful registration you'll be redirected to login.</div>
+    <div style="text-align:center;margin-top:12px"><a href="login.html" style="color:#bff8ff;text-decoration:none">Already registered? Login</a></div>
+    <div id="errorBox" class="error"></div>
+    <div class="small">Referral link: https://usdtmining.github.io/USDT/index.html?ref=username</div>
   </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script>
-  // YOUR FIREBASE CONFIG (from you)
-  const firebaseConfig = {
+/* ---------- Firebase config (nebit-drop) ---------- */
+const firebaseConfig = {
   apiKey: "AIzaSyBqdPdqxg-ETwxu7CZp68myh2kW4hD_aO8",
   authDomain: "nebit-drop.firebaseapp.com",
   databaseURL: "https://nebit-drop-default-rtdb.firebaseio.com",
@@ -60,96 +70,134 @@
   messagingSenderId: "316280534789",
   appId: "1:316280534789:web:9903fdb98b5cb4ff60a96c"
 };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  const registerBtn = document.getElementById('registerBtn');
-  registerBtn.addEventListener('click', register);
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const showError = (msg) => {
+  const box = $('errorBox'); box.style.display='block'; box.textContent = msg;
+  setTimeout(()=>{ box.style.display='none'; }, 6000);
+};
 
-  async function register(){
-    const username = (document.getElementById('username').value || '').trim().toLowerCase();
-    const email = (document.getElementById('email').value || '').trim();
-    const password = document.getElementById('password').value;
-    const referredBy = (document.getElementById('referredBy').value || '').trim().toLowerCase() || null;
+/* ---------- prefill referral from URL if present ---------- */
+(function prefill(){
+  const p = new URLSearchParams(location.search);
+  const r = p.get('ref');
+  if(r){ $('referredBy').value = r; }
+})();
 
-    if(!username || !email || !password){ alert('Please fill username, email and password.'); return; }
+/* ---------- registration flow ---------- */
+document.getElementById('registerBtn').addEventListener('click', register);
+document.getElementById('googleBtn').addEventListener('click', googleSignUp);
 
-    try{
-      // create auth user
-      const cred = await auth.createUserWithEmailAndPassword(email, password);
-      const uid = cred.user.uid;
+async function register(){
+  const username = ( $('username').value || '' ).trim().toLowerCase();
+  const email = ( $('email').value || '' ).trim();
+  const password = $('password').value;
+  const referredBy = ( $('referredBy').value || '' ).trim().toLowerCase() || null;
 
-      // check uniqueness of username by querying users collection (now allowed because user is authenticated)
-      const q = await db.collection('users').where('username','==', username).limit(1).get();
-      if(!q.empty){
-        // username taken -> delete created user and throw
-        await cred.user.delete();
-        alert('Username already taken. Choose another and try again.');
-        return;
-      }
+  if(!username || !email || !password){ showError('Please fill username, email and password.'); return; }
 
-      // write user doc at /users/{uid}
-      await db.collection('users').doc(uid).set({
-        username,
-        email,
-        referralCode: username,
-        referredBy: referredBy || null,
-        referralCount: 0,
-        createdAt: new Date().toISOString()
-      });
+  try{
+    // create auth user first (we must be authenticated to write user doc given rules)
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    const uid = cred.user.uid;
 
-      // If referredBy exists, create a referral event for server-side processing
-      if(referredBy){
-        await db.collection('referralEvents').add({
-          referralCode: referredBy,
-          newUid: uid,
-          createdAt: new Date().toISOString()
-        });
-      }
-
-      // sign out (so user can login), redirect to login
-      await auth.signOut();
-      alert('Registration successful — please login.');
-      window.location.href = 'login.html';
-    } catch(err){
-      alert(err.message || 'Registration failed');
+    // username uniqueness: query users collection
+    const q = await db.collection('users').where('username','==',username).limit(1).get();
+    if(!q.empty){
+      // username taken -> delete auth user and show error
+      await cred.user.delete();
+      showError('Username already taken. Choose a different username.');
+      return;
     }
-  }
 
-  // Google sign-in: create user doc if missing and then redirect to login (or directly to dashboard)
-  document.getElementById('googleBtn').addEventListener('click', async ()=>{
-    const provider = new firebase.auth.GoogleAuthProvider();
+    // create user doc at users/{uid}
+    await db.collection('users').doc(uid).set({
+      username,
+      email,
+      referralCode: username,
+      referredBy: referredBy || null,
+      referralCount: 0,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // if referredBy provided, create a referral event for server-side processing
+    if(referredBy){
+      await db.collection('referralEvents').add({
+        referralCode: referredBy,
+        newUid: uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    // sign out and redirect to login
+    await auth.signOut();
+    alert('Registration successful — please login.');
+    window.location.href = 'login.html';
+  } catch(err){
+    // friendly handling for common auth errors
+    const code = err && err.code;
+    if(code === 'auth/email-already-in-use'){
+      showError('That email is already registered. Redirecting to login...');
+      // Wait a bit then redirect to login
+      setTimeout(()=> window.location.href = 'login.html', 1600);
+      return;
+    }
+    if(code === 'auth/invalid-email'){ showError('Invalid email address'); return; }
+    if(code === 'auth/weak-password'){ showError('Password is too weak'); return; }
+    // fallback
+    showError(err.message || 'Registration failed');
+    // if auth user partially created but not finished, ensure no stray auth: (rare cases)
     try{
-      const result = await auth.signInWithPopup(provider);
-      const user = result.user;
-      const uid = user.uid;
-      const udoc = await db.collection('users').doc(uid).get();
-      if(!udoc.exists){
-        // try to reserve a username based on displayName (append random digits if conflict)
-        let base = (user.displayName||'user').toLowerCase().replace(/\s+/g,'').replace(/[^\w\-]/g,'') || 'user';
-        let candidate = base;
-        let taken = true;
-        for(let i=0;i<6;i++){
-          const q = await db.collection('users').where('username','==', candidate).limit(1).get();
-          if(q.empty){ taken=false; break; }
-          candidate = base + Math.floor(Math.random()*9000+100);
-        }
-        await db.collection('users').doc(uid).set({
-          username: candidate,
-          email: user.email || '',
-          referralCode: candidate,
-          referredBy: null,
-          referralCount: 0,
-          createdAt: new Date().toISOString()
-        });
+      const current = auth.currentUser;
+      if(current && !current.emailVerified){ await current.delete().catch(()=>{}); }
+    }catch(e){}
+  }
+}
+
+/* ---------- google sign-up ---------- */
+async function googleSignUp(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try{
+    const result = await auth.signInWithPopup(provider);
+    const user = result.user;
+    const uid = user.uid;
+    const docRef = db.collection('users').doc(uid);
+    const snap = await docRef.get();
+    if(!snap.exists){
+      // try to reserve a username based on displayName
+      let base = (user.displayName || 'user').toLowerCase().replace(/\s+/g,'').replace(/[^\w\-]/g,'') || 'user';
+      let candidate = base;
+      for(let i=0;i<6;i++){
+        const exists = (await db.collection('users').where('username','==',candidate).limit(1).get()).empty === false;
+        if(!exists) break;
+        candidate = base + Math.floor(Math.random()*9000+100);
       }
-      // sign out and redirect to login for consistent UX
-      await auth.signOut();
-      alert('Google registration complete. Please login (or you will be redirected).');
-      window.location.href = 'login.html';
-    }catch(err){ alert(err.message || 'Google sign-in failed'); }
-  });
+      await docRef.set({
+        username: candidate,
+        email: user.email || '',
+        referralCode: candidate,
+        referredBy: null,
+        referralCount: 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    // log out to follow flow -> redirect to login (or directly to referral if you prefer)
+    await auth.signOut();
+    alert('Google registration complete. Please login.');
+    window.location.href = 'login.html';
+  } catch(err){
+    if(err.code === 'auth/account-exists-with-different-credential' || err.code === 'auth/email-already-in-use'){
+      showError('That email is already registered. Please login instead.');
+      setTimeout(()=> window.location.href = 'login.html', 1400);
+      return;
+    }
+    showError(err.message || 'Google sign-in failed');
+  }
+}
 </script>
 </body>
 </html>
